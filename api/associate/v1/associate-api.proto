@@ -1,0 +1,440 @@
+syntax = "proto3";
+package user.api;
+
+option go_package = "github.com/alexeyzer/user";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+ service userApiService {
+   rpc addItemToFavorite(addItemToFavoriteRequest) returns (addItemToFavoriteResponse) {
+     option (google.api.http) = {
+       post: "/v1/favorite"
+       body: "*"
+     };
+   };
+
+
+   rpc ListFavorite(google.protobuf.Empty) returns (ListFavoriteResponse) {
+     option (google.api.http) = {
+       get: "/v1/favorite"
+     };
+   };
+
+   rpc GetUserInfoAboutProduct(GetUserInfoAboutProductRequest) returns (GetUserInfoAboutProductResponse) {
+     option (google.api.http) = {
+       get: "/v1/favorite/check"
+     };
+   };
+
+   rpc deleteItemFromFavorite(deleteItemFromFavoriteRequest) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       delete: "/v1/favorite"
+     };
+   };
+
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {
+      post: "/v1/user"
+      body: "*"
+    };
+  };
+
+   rpc ListUsers(google.protobuf.Empty) returns (ListUsersResponse) {
+     option (google.api.http) = {
+       get: "/v1/user/list"
+     };
+   };
+
+   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+     option (google.api.http) = {
+       get: "/v1/user"
+     };
+   };
+
+   rpc Login(LoginRequest) returns (LoginResponse) {
+     option (google.api.http) = {
+       post: "/v1/login"
+       body: "*"
+     };
+   };
+
+
+   rpc Logout(google.protobuf.Empty) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       post: "/v1/logout"
+       body: "*"
+     };
+   };
+
+   rpc SessionCheck(google.protobuf.Empty) returns (SessionCheckResponse) {
+     option (google.api.http) = {
+       post: "/v1/session/check"
+       body: "*"
+     };
+   };
+
+   rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {
+     option (google.api.http) = {
+       post: "/v1/role"
+       body: "*"
+     };
+   };
+   rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleResponse) {
+     option (google.api.http) = {
+       put: "/v1/role"
+       body: "*"
+     };
+   };
+
+   rpc DeleteRole(DeleteRoleRequest) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       delete: "/v1/role"
+     };
+   };
+
+   rpc GetRole(GetRoleRequest) returns (GetRoleResponse) {
+     option (google.api.http) = {
+       get: "/v1/role"
+     };
+   };
+
+   rpc ListRoles(google.protobuf.Empty) returns (ListRolesResponse) {
+     option (google.api.http) = {
+       get: "/v1/role/list"
+     };
+   };
+
+   rpc CreateUserRole(CreateUserRoleRequest) returns (CreateUserRoleResponse) {
+     option (google.api.http) = {
+       post: "/v1/user-role"
+       body: "*"
+     };
+   };
+
+   rpc GetUserRole(GetUserRoleRequest) returns (GetUserRoleResponse) {
+     option (google.api.http) = {
+       get: "/v1/user-role"
+     };
+   };
+
+   rpc DeleteUserRole(DeleteUserRoleRequest) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       delete: "/v1/user-role"
+     };
+   };
+
+   rpc ListUserRoles(ListUserRolesRequest) returns (ListUserRolesResponse) {
+     option (google.api.http) = {
+       get: "/v1/user-role/list"
+     };
+   };
+
+   rpc IsItemInCart(IsItemInCartRequest) returns (AddToCartResponse) {
+     option (google.api.http) = {
+       get: "/v1/cart/check"
+     };
+   };
+
+   rpc AddToCart(AddToCartRequest) returns (AddToCartResponse) {
+     option (google.api.http) = {
+       post: "/v1/cart"
+       body: "*"
+     };
+   };
+
+   rpc updateCart(updateCartRequest) returns (updateCartResponse) {
+     option (google.api.http) = {
+       put: "/v1/cart"
+       body: "*"
+     };
+   };
+
+   rpc DeleteFromCart(DeleteFromCartRequest) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       delete: "/v1/cart"
+     };
+   };
+
+   rpc ListCartItems(google.protobuf.Empty) returns (ListCartItemsResponse) {
+     option (google.api.http) = {
+       get: "/v1/cart/list"
+     };
+   };
+
+   rpc deleteAllFromCart(google.protobuf.Empty) returns (google.protobuf.Empty) {
+     option (google.api.http) = {
+       delete: "/v1/cart/all"
+     };
+   };
+
+   rpc CreateOrder(google.protobuf.Empty) returns (CreateOrderResponse) {
+     option (google.api.http) = {
+       post: "/v1/order"
+     };
+   };
+
+   rpc ListOrder(google.protobuf.Empty) returns (ListOrderResponse) {
+     option (google.api.http) = {
+       get: "/v1/order/list"
+     };
+   };
+   rpc ListOrderByUserId(ListOrderByUserIdRequest) returns (ListOrderResponse) {
+     option (google.api.http) = {
+       get: "/v1/order/list/by-user-id"
+     };
+   };
+ }
+
+ message IsItemInCartRequest {
+   int64 final_product_id = 1;
+ }
+
+
+message GetUserInfoAboutProductRequest {
+   int64 product_id = 1;
+}
+
+message GetUserInfoAboutProductResponse {
+  int64 user_quantity = 1;
+   bool is_favorite = 2;
+   int64 favorite_id = 3;
+}
+
+ message deleteItemFromFavoriteRequest {
+   int64 id = 1;
+ }
+
+ message addItemToFavoriteResponse {
+   int64 id = 1;
+   int64 product_id = 2;
+   int64 user_id = 3;
+ }
+
+ message addItemToFavoriteRequest {
+   int64 product_id = 1 [(validate.rules).int64.gt = 0];
+ }
+
+ message ListOrderByUserIdRequest {
+   int64 user_id = 1;
+ }
+
+ message GetUserRequest {
+   int64 id = 1;
+ }
+
+message UpdateRoleRequest {
+ int64 id = 1;
+ string name = 2;
+ string description = 3;
+}
+
+message UpdateRoleResponse {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+ message ListOrderResponse {
+   repeated CreateOrderResponse orders= 1;
+ }
+
+ message CreateOrderResponse {
+   int64 id = 1;
+   int64 user_id = 2;
+   OrderStatus order_status = 3;
+   google.protobuf.Timestamp order_date = 4;
+   double total_price = 5;
+   repeated fullCartItem products = 6;
+ }
+
+enum OrderStatus {
+  CREATED = 0;
+  DECLINED = 1;
+  DONE = 2;
+}
+
+ message ListCartItemsResponse {
+   repeated fullCartItem products = 1;
+   double total_price = 2;
+   int64 total_count_products = 3;
+ }
+
+message fullCartItem {
+  int64 full_product_id = 1;
+  string name = 2;
+  string description = 3;
+  string url = 4;
+  string brand_name = 5;
+  string category_name = 6;
+  string color = 7;
+  double price = 8;
+  string size = 9;
+  int64 amount = 10;
+  int64 user_quantity = 11;
+  int64 id = 12;
+}
+
+ message DeleteFromCartRequest {
+   int64 id = 1 [(validate.rules).int64.gt = 0];
+ }
+
+ message updateCartRequest {
+   int64 final_product_id = 1 [(validate.rules).int64.gt = 0];
+   int64 quantity = 2 [(validate.rules).int64.gt = 0];
+ }
+
+message updateCartResponse {
+  int64 final_product_id = 1;
+  int64 quantity = 2;
+}
+
+ message AddToCartRequest {
+   int64 final_product_id = 1 [(validate.rules).int64.gt = 0];
+   int64 quantity = 2 [(validate.rules).int64.gt = 0];
+ }
+
+ message AddToCartResponse {
+   int64 id = 1;
+   int64 user_id  = 2;
+   int64 final_product_id = 3;
+   int64 quantity = 4;
+ }
+
+message ListUserRolesResponse {
+   repeated string user_roles = 1;
+}
+
+ message ListUserRolesRequest {
+   int64 user_id = 1;
+ }
+
+ message DeleteUserRoleRequest {
+   int64 id = 1;
+ }
+
+message GetUserRoleRequest {
+   int64 id = 1;
+}
+
+message GetUserRoleResponse {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 role_id = 3;
+}
+
+ message CreateUserRoleResponse {
+   int64 id = 1;
+   int64 user_id = 2;
+   int64 role_id = 3;
+ }
+
+ message CreateUserRoleRequest {
+   int64 user_id = 1;
+   int64 role_id = 2;
+ }
+
+ message DeleteRoleRequest {
+   int64 id = 1;
+ }
+
+ message CreateRoleRequest {
+   string name = 1;
+   string description = 2;
+ }
+
+ message CreateRoleResponse {
+   int64 id = 1;
+   string name = 2;
+   string description = 3;
+ }
+
+ message GetRoleRequest {
+   int64 id = 1;
+ }
+
+ message GetRoleResponse {
+   int64 id = 1;
+   string name = 2;
+   string description = 3;
+ }
+
+message SessionCheckResponse {
+  string email = 1;
+  repeated string user_roles = 2;
+  int64 user_id = 3;
+}
+
+message ListRolesResponse {
+   repeated GetRoleResponse roles = 1;
+}
+
+message LoginRequest {
+  string email = 1 [(validate.rules).string.email = true];
+  string password = 2 [(validate.rules).string = {min_len: 1, max_len: 600}];
+}
+
+ message CreateUserRequest {
+    string name = 1 [(validate.rules).string = {min_len: 1, max_len: 100}];
+    string password = 2 [(validate.rules).string = {min_len: 1, max_len: 600}];
+    string surname = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
+    string patronymic = 4 [(validate.rules).string = {min_len: 1, max_len: 100}];
+    string phone = 5;
+    string email = 6 [(validate.rules).string.email = true];
+ }
+
+ message ListUsersResponse {
+   repeated CreateUserResponse users = 1;
+ }
+
+message GetUserResponse {
+  int64 id = 1;
+  string name = 2;
+  string surname = 3;
+  string patronymic = 4;
+  string phone = 5;
+  string email = 6;
+  repeated UserRoles roles = 7;
+  message UserRoles {
+    int64 user_role_id = 1;
+    string name = 2;
+  }
+}
+
+ message CreateUserResponse {
+   int64 id = 1;
+   string name = 2;
+   string surname = 3;
+   string patronymic = 4;
+   string phone = 5;
+   string email = 6;
+ }
+
+ message LoginResponse {
+   int64 id = 1;
+   string name = 2;
+   string surname = 3;
+   string patronymic = 4;
+   string phone = 5;
+   string email = 6;
+   string session = 7;
+   bool access_to_admin_panel = 8;
+   repeated CreateRoleResponse roles = 9;
+ }
+
+ message ListFavoriteResponse {
+   repeated ProductResponse products= 1;
+ }
+
+message ProductResponse {
+  int64 id = 1;
+  int64 favorite_id = 2;
+  string name = 3;
+  string description = 4;
+  string url = 5;
+  int64 brand_id = 6;
+  int64 category_id = 7;
+  string color = 8;
+  double price = 9;
+}
