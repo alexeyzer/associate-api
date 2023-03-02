@@ -2,11 +2,12 @@ package service
 
 import (
 	"context"
-	"github.com/alexeyzer/user-api/config"
-	"github.com/alexeyzer/user-api/internal/client"
-	"github.com/alexeyzer/user-api/internal/pkg/datastruct"
-	"github.com/alexeyzer/user-api/internal/pkg/repository"
-	desc "github.com/alexeyzer/user-api/pb/api/user/v1"
+
+	"github.com/alexeyzer/associate-api/config"
+	"github.com/alexeyzer/associate-api/internal/client"
+	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
+	"github.com/alexeyzer/associate-api/internal/pkg/repository"
+	desc "github.com/alexeyzer/associate-api/pb/api/associate/v1"
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"

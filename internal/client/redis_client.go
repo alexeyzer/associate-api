@@ -2,12 +2,13 @@ package client
 
 import (
 	"context"
-	"github.com/alexeyzer/user-api/config"
+	"os"
+	"time"
+
+	"github.com/alexeyzer/associate-api/config"
 	"github.com/go-redis/redis/v8"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"os"
-	"time"
 )
 
 type RedisClient interface {
@@ -53,9 +54,9 @@ func NewRedisClient(ctx context.Context) (RedisClient, error) {
 		Password: os.Getenv(config.Config.Redis.Password),
 		DB:       0, // use default DB
 	})
-	err := rdb.Ping(ctx).Err()
-	if err != nil {
-		return nil, err
-	}
+	//err := rdb.Ping(ctx).Err()
+	//if err != nil {
+	//	return nil, err
+	//}
 	return &redisClient{redisClient: rdb}, nil
 }

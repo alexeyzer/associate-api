@@ -2,17 +2,18 @@ package main
 
 import (
 	"context"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net"
 	"net/http"
 	"time"
 
-	"github.com/alexeyzer/user-api/config"
-	"github.com/alexeyzer/user-api/internal/client"
-	"github.com/alexeyzer/user-api/internal/pkg/repository"
-	"github.com/alexeyzer/user-api/internal/pkg/service"
-	"github.com/alexeyzer/user-api/internal/user_serivce"
-	gw "github.com/alexeyzer/user-api/pb/api/user/v1"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"github.com/alexeyzer/associate-api/config"
+	"github.com/alexeyzer/associate-api/internal/associate_service"
+	"github.com/alexeyzer/associate-api/internal/client"
+	"github.com/alexeyzer/associate-api/internal/pkg/repository"
+	"github.com/alexeyzer/associate-api/internal/pkg/service"
+	gw "github.com/alexeyzer/associate-api/pb/api/associate/v1"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
@@ -89,7 +90,7 @@ func cors(h http.Handler) http.Handler {
 	})
 }
 
-func RunServer(ctx context.Context, userApiServiceServer *user_serivce.UserApiServiceServer) error {
+func RunServer(ctx context.Context, associateApiServiceServer *associate_service.AssociateApiServiceServer) error {
 
 	grpcLis, err := net.Listen("tcp", ":"+config.Config.App.GrpcPort)
 	if err != nil {
@@ -100,7 +101,7 @@ func RunServer(ctx context.Context, userApiServiceServer *user_serivce.UserApiSe
 		grpc_validator.UnaryServerInterceptor(),
 		grpc_prometheus.UnaryServerInterceptor)),
 	)
-	gw.RegisterUserApiServiceServer(grpcServer, userApiServiceServer)
+	gw.RegisterAssociateApiServiceServer(grpcServer, associateApiServiceServer)
 
 	mux := http.NewServeMux()
 	gwmux := runtime.NewServeMux(runtime.WithMetadata(gatewayMetadataAnnotator), runtime.WithForwardResponseOption(httpResponseModifier))
@@ -111,7 +112,7 @@ func RunServer(ctx context.Context, userApiServiceServer *user_serivce.UserApiSe
 		grpc.WithInsecure(),
 		grpc.WithDefaultCallOptions(),
 	}
-	err = gw.RegisterUserApiServiceHandlerFromEndpoint(ctx, gwmux, ":"+config.Config.App.GrpcPort, opts)
+	err = gw.RegisterAssociateApiServiceHandlerFromEndpoint(ctx, gwmux, ":"+config.Config.App.GrpcPort, opts)
 	if err != nil {
 		return err
 	}
@@ -149,17 +150,12 @@ func main() {
 		log.Fatal("Failed to connect to redis db: ", err)
 	}
 
-	productAPIClient, err := client.NewProductApiClient(config.Config.GRPC.ProductAPI)
-
 	userService := service.NewUserService(dao, redis)
 	roleService := service.NewRoleService(dao)
 	userRoleService := service.NewUserRoleService(dao)
-	cartService := service.NewCartService(dao, productAPIClient)
-	orderService := service.NewOrderService(dao, cartService, productAPIClient)
-	favoriteService := service.NewFavoriteService(dao, productAPIClient)
 
-	userApiServiceServer := user_serivce.NewUserApiServiceServer(userService, roleService, userRoleService, cartService, orderService, favoriteService)
-	if err := RunServer(ctx, userApiServiceServer); err != nil {
+	associateApiServiceServer := associate_service.NewAssociateApiServiceServer(userService, roleService, userRoleService)
+	if err := RunServer(ctx, associateApiServiceServer); err != nil {
 		log.Fatal(err)
 	}
 }

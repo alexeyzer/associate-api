@@ -3,8 +3,9 @@ package repository
 import (
 	"context"
 	"database/sql"
+
 	"github.com/Masterminds/squirrel"
-	"github.com/alexeyzer/user-api/internal/pkg/datastruct"
+	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
 	"github.com/jmoiron/sqlx"
 )
 

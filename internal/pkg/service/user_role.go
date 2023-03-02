@@ -7,8 +7,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/alexeyzer/user-api/internal/pkg/datastruct"
-	"github.com/alexeyzer/user-api/internal/pkg/repository"
+	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
+	"github.com/alexeyzer/associate-api/internal/pkg/repository"
 )
 
 type UserRoleService interface {
