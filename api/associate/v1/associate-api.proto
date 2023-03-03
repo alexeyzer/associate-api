@@ -8,6 +8,19 @@ import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
  service associateApiService {
+  rpc CreateExperiment(CreateExperimentRequest) returns (CreateExperimentResponse) {
+    option (google.api.http) = {
+      post: "/v1/experiment"
+      body: "*"
+    };
+  }
+
+  rpc GetExperiment(GetExperimentRequest) returns (GetExperimentResponse) {
+    option (google.api.http) = {
+      get: "/v1/experiment"
+    };
+  }
+
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
       post: "/v1/user"
@@ -105,7 +118,29 @@ import "validate/validate.proto";
      };
    };
  }
+
+ message GetExperimentRequest {
+  int64 id = 1;
+ }
+
+ message GetExperimentResponse {
+  int64 id = 1;
+  string name = 2;
+  google.protobuf.int32 requeired_amount = 3;
+  repeated stimus_word_id = 4;
+ }
  
+ message CreateExperimentRequest {
+  string name = 1;
+  google.protobuf.int32 requeired_amount_of_answers = 2;
+  google.protobuf.Timestamp due_date = 3;
+  repeated string stimus_word = 4;
+ }
+
+ message CreateExperimentResponse {
+  int64 id = 1;
+ }
+
  message GetUserRequest {
    int64 id = 1;
  }

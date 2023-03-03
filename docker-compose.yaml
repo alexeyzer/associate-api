@@ -1,0 +1,28 @@
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=test
+      - POSTGRES_DB=test
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+#pods
+  associate-api:
+    image: associate-api
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7002:7002"
+    networks:
+      - default
+    depends_on:
+      - database
+      - redis
+    restart: always

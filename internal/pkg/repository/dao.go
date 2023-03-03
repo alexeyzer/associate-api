@@ -1,8 +1,12 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/jmoiron/sqlx"
+	"github.com/alexeyzer/associate-api/config"
 	_ "github.com/lib/pq"
+	
 )
 
 type DAO interface {
@@ -20,24 +24,25 @@ type dao struct {
 
 func NewDao() (DAO, error) {
 	dao := &dao{}
-	//dbConf := config.Config.Database
-	//dsn := fmt.Sprintf(dbConf.Dsn,
-	// dbConf.Host,
-	// dbConf.Port,
-	// dbConf.Dbname,
-	// dbConf.User,
-	// dbConf.Password,
-	// dbConf.Ssl)
-	// conn, err := sqlx.Connect("postgres", dsn)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	dbConf := config.Config.Database
+	dsn := fmt.Sprintf(dbConf.Dsn,
+	dbConf.Host,
+	dbConf.Port,
+	dbConf.Dbname,
+	dbConf.User,
+	dbConf.Password,
+	dbConf.Ssl)
+	fmt.Println(dsn)
+	conn, err := sqlx.Connect("postgres", dsn)
+	if err != nil {
+		return nil, err
+	}
 
-	// err = conn.Ping()
-	// if err != nil {
-	// 	return nil, err
-	// }
-	//dao.db = conn
+	err = conn.Ping()
+	if err != nil {
+		return nil, err
+	}
+	dao.db = conn
 	return dao, nil
 }
 

@@ -54,9 +54,9 @@ func NewRedisClient(ctx context.Context) (RedisClient, error) {
 		Password: os.Getenv(config.Config.Redis.Password),
 		DB:       0, // use default DB
 	})
-	//err := rdb.Ping(ctx).Err()
-	//if err != nil {
-	//	return nil, err
-	//}
+	err := rdb.Ping(ctx).Err()
+	if err != nil {
+		return nil, err
+	}
 	return &redisClient{redisClient: rdb}, nil
 }
