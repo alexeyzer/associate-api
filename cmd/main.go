@@ -33,10 +33,13 @@ func serveSwagger(mux *http.ServeMux) {
 
 // look up session and pass sessionId in to context if it exists
 func gatewayMetadataAnnotator(_ context.Context, r *http.Request) metadata.MD {
-	//SessionID, ok := r.Cookie(config.Config.Auth.SessionKey)
-	SessionID := r.Header.Get(config.Config.Auth.SessionKey)
+	SessionID := r.Header.Get(config.SessionKey)
+	c, err := r.Cookie(config.SessionKey)
+	if err == nil {
+		SessionID = c.Value
+	}
 	if SessionID != "" {
-		return metadata.Pairs(config.Config.Auth.SessionKey, SessionID)
+		return metadata.Pairs(config.SessionKey, SessionID)
 	}
 	return metadata.Pairs()
 }
@@ -47,30 +50,30 @@ func httpResponseModifier(ctx context.Context, w http.ResponseWriter, _ proto.Me
 		return nil
 	}
 
-	sessionID := md.HeaderMD.Get(config.Config.Auth.SessionKey)
+	sessionID := md.HeaderMD.Get(config.SessionKey)
 	logout := md.HeaderMD.Get(config.Config.Auth.LogoutKey)
 	if len(sessionID) > 0 {
 		if len(logout) == 0 {
-			//w.Header().Set(config.Config.Auth.SessionKey, sessionID[0])
-			//http.SetCookie(w, &http.Cookie{
-			//	Name:     config.Config.Auth.SessionKey,
-			//	Value:    sessionID[0],
-			//	Path:     "/",
-			//	HttpOnly: true,
-			//	Expires:  time.Now().Add(time.Hour * 24),
-			//	SameSite: http.SameSiteNoneMode,
-			//	Secure:   true,
-			//})
+			http.SetCookie(w, &http.Cookie{
+				Name:     config.SessionKey,
+				Value:    sessionID[0],
+				Path:     "/",
+				HttpOnly: true,
+				Expires:  time.Now().Add(time.Hour * 24),
+				SameSite: http.SameSiteNoneMode,
+				Secure:   true,
+			})
 		} else {
-			//http.SetCookie(w, &http.Cookie{
-			//	Name:     config.Config.Auth.SessionKey,
-			//	Value:    sessionID[0],
-			//	Path:     "/",
-			//	HttpOnly: true,
-			//	Expires:  time.Now().Add(time.Duration(-1) * time.Hour * 24),
-			//	SameSite: http.SameSiteNoneMode,
-			//	Secure:   true,
-			//})
+			w.Header().Add(config.SessionKey, sessionID[0])
+			http.SetCookie(w, &http.Cookie{
+				Name:     config.SessionKey,
+				Value:    sessionID[0],
+				Path:     "/",
+				HttpOnly: true,
+				Expires:  time.Now().Add(time.Duration(-1) * time.Hour * 24),
+				SameSite: http.SameSiteNoneMode,
+				Secure:   true,
+			})
 		}
 	}
 	return nil
@@ -142,7 +145,7 @@ func main() {
 
 	dao, err := repository.NewDao()
 	if err != nil {
-		log.Fatal("Failed to connect to db: ", err)
+		log.Fatalf("Failed to connect to db: %s", err)
 	}
 
 	redis, err := client.NewRedisClient(ctx)
@@ -153,8 +156,10 @@ func main() {
 	userService := service.NewUserService(dao, redis)
 	roleService := service.NewRoleService(dao)
 	userRoleService := service.NewUserRoleService(dao)
+	experimentService := service.NewExperimentService(dao)
+	stimusWordService := service.NewStimusWordService(dao)
 
-	associateApiServiceServer := associate_service.NewAssociateApiServiceServer(userService, roleService, userRoleService)
+	associateApiServiceServer := associate_service.NewAssociateApiServiceServer(userService, roleService, userRoleService, experimentService, stimusWordService)
 	if err := RunServer(ctx, associateApiServiceServer); err != nil {
 		log.Fatal(err)
 	}

@@ -57,7 +57,7 @@ func (s *userService) createSession(ctx context.Context, user *datastruct.User) 
 	if err != nil {
 		log.Warnf("failed to create sessionID for user = %s, err: %s", user.Email, err)
 	}
-
+	grpc.SetHeader(ctx, metadata.Pairs(config.SessionKey, sessionID));
 	return sessionID
 }
 
@@ -66,7 +66,7 @@ func (s *userService) DeleteSession(ctx context.Context, sessionID string) error
 	if err != nil {
 		return err
 	}
-	if err := grpc.SetHeader(ctx, metadata.Pairs(config.Config.Auth.SessionKey, sessionID)); err != nil {
+	if err := grpc.SetHeader(ctx, metadata.Pairs(config.SessionKey, sessionID)); err != nil {
 		return err
 	}
 	if err := grpc.SetHeader(ctx, metadata.Pairs(config.Config.Auth.LogoutKey, config.Config.Auth.LogoutKey)); err != nil {

@@ -16,6 +16,99 @@
     "application/json"
   ],
   "paths": {
+    "/v1/experiment": {
+      "get": {
+        "operationId": "associateApiService_GetExperiment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetExperimentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      },
+      "post": {
+        "operationId": "associateApiService_CreateExperiment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateExperimentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateExperimentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
+    "/v1/experiment-result": {
+      "post": {
+        "operationId": "associateApiService_CreateExperimentResult",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateExperimentResultResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateExperimentResultRequest"
+            }
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
     "/v1/login": {
       "post": {
         "operationId": "associateApiService_Login",
@@ -222,14 +315,14 @@
         ]
       }
     },
-    "/v1/session/check": {
-      "post": {
-        "operationId": "associateApiService_SessionCheck",
+    "/v1/stimus-word": {
+      "get": {
+        "operationId": "associateApiService_ListStimusWords",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiSessionCheckResponse"
+              "$ref": "#/definitions/apiListStimusWordsResponse"
             }
           },
           "default": {
@@ -239,16 +332,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "properties": {}
-            }
-          }
-        ],
         "tags": [
           "associateApiService"
         ]
@@ -472,6 +555,61 @@
         }
       }
     },
+    "apiCreateExperimentRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "requeiredAmount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "experimentStimuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiExperimentStimuses"
+          }
+        }
+      }
+    },
+    "apiCreateExperimentResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "apiCreateExperimentResultRequest": {
+      "type": "object",
+      "properties": {
+        "experimentId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "isAnonymous": {
+          "type": "boolean"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiExperimentWords"
+          }
+        }
+      }
+    },
+    "apiCreateExperimentResultResponse": {
+      "type": "object"
+    },
     "apiCreateRoleRequest": {
       "type": "object",
       "properties": {
@@ -575,6 +713,63 @@
         }
       }
     },
+    "apiExperimentStimuses": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "limitedResponseTime": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "apiExperimentWords": {
+      "type": "object",
+      "properties": {
+        "stimusWordId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "assotiationWord": {
+          "type": "string"
+        },
+        "timeSpend": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "apiGetExperimentResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "requeiredAmount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "experimentStimuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiExperimentStimuses"
+          }
+        }
+      }
+    },
     "apiGetRoleResponse": {
       "type": "object",
       "properties": {
@@ -648,6 +843,17 @@
         }
       }
     },
+    "apiListStimusWordsResponse": {
+      "type": "object",
+      "properties": {
+        "words": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiStimusWord"
+          }
+        }
+      }
+    },
     "apiListUserRolesResponse": {
       "type": "object",
       "properties": {
@@ -717,21 +923,15 @@
         }
       }
     },
-    "apiSessionCheckResponse": {
+    "apiStimusWord": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string"
-        },
-        "userRoles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "userId": {
+        "id": {
           "type": "string",
           "format": "int64"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },

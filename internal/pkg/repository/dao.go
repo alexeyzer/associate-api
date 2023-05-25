@@ -4,34 +4,38 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/alexeyzer/associate-api/config"
 	_ "github.com/lib/pq"
-	
+
+	"github.com/alexeyzer/associate-api/config"
 )
 
 type DAO interface {
 	UserQuery() UserQuery
 	RoleQuery() RoleQuery
 	UserRoleQuery() UserRoleQuery
+	ExperimentQuery() ExperimentQuery
+	StimusWordQuery() StimusWordQuery
 }
 
 type dao struct {
-	userRoleQuery UserRoleQuery
-	roleQuery     RoleQuery
-	userQuery     UserQuery
-	db            *sqlx.DB
+	userRoleQuery   UserRoleQuery
+	roleQuery       RoleQuery
+	userQuery       UserQuery
+	experimentQuery ExperimentQuery
+	stimusWordQuery StimusWordQuery
+	db              *sqlx.DB
 }
 
 func NewDao() (DAO, error) {
 	dao := &dao{}
 	dbConf := config.Config.Database
 	dsn := fmt.Sprintf(dbConf.Dsn,
-	dbConf.Host,
-	dbConf.Port,
-	dbConf.Dbname,
-	dbConf.User,
-	dbConf.Password,
-	dbConf.Ssl)
+		dbConf.Host,
+		dbConf.Port,
+		dbConf.Dbname,
+		dbConf.User,
+		dbConf.Password,
+		dbConf.Ssl)
 	fmt.Println(dsn)
 	conn, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
@@ -65,4 +69,18 @@ func (d *dao) UserQuery() UserQuery {
 		d.userQuery = NewUserQuery(d.db)
 	}
 	return d.userQuery
+}
+
+func (d *dao) ExperimentQuery() ExperimentQuery {
+	if d.experimentQuery == nil {
+		d.experimentQuery = NewExperimentQuery(d.db)
+	}
+	return d.experimentQuery
+}
+
+func (d *dao) StimusWordQuery() StimusWordQuery {
+	if d.stimusWordQuery == nil {
+		d.stimusWordQuery = NewStimusWordQuery(d.db)
+	}
+	return d.stimusWordQuery
 }

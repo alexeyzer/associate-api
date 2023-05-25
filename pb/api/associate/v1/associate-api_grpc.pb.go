@@ -20,33 +20,39 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AssociateApiService_CreateUser_FullMethodName     = "/user.api.associateApiService/CreateUser"
-	AssociateApiService_ListUsers_FullMethodName      = "/user.api.associateApiService/ListUsers"
-	AssociateApiService_GetUser_FullMethodName        = "/user.api.associateApiService/GetUser"
-	AssociateApiService_Login_FullMethodName          = "/user.api.associateApiService/Login"
-	AssociateApiService_Logout_FullMethodName         = "/user.api.associateApiService/Logout"
-	AssociateApiService_SessionCheck_FullMethodName   = "/user.api.associateApiService/SessionCheck"
-	AssociateApiService_CreateRole_FullMethodName     = "/user.api.associateApiService/CreateRole"
-	AssociateApiService_UpdateRole_FullMethodName     = "/user.api.associateApiService/UpdateRole"
-	AssociateApiService_DeleteRole_FullMethodName     = "/user.api.associateApiService/DeleteRole"
-	AssociateApiService_GetRole_FullMethodName        = "/user.api.associateApiService/GetRole"
-	AssociateApiService_ListRoles_FullMethodName      = "/user.api.associateApiService/ListRoles"
-	AssociateApiService_CreateUserRole_FullMethodName = "/user.api.associateApiService/CreateUserRole"
-	AssociateApiService_GetUserRole_FullMethodName    = "/user.api.associateApiService/GetUserRole"
-	AssociateApiService_DeleteUserRole_FullMethodName = "/user.api.associateApiService/DeleteUserRole"
-	AssociateApiService_ListUserRoles_FullMethodName  = "/user.api.associateApiService/ListUserRoles"
+	AssociateApiService_ListStimusWords_FullMethodName        = "/user.api.associateApiService/ListStimusWords"
+	AssociateApiService_CreateExperiment_FullMethodName       = "/user.api.associateApiService/CreateExperiment"
+	AssociateApiService_CreateExperimentResult_FullMethodName = "/user.api.associateApiService/CreateExperimentResult"
+	AssociateApiService_GetExperiment_FullMethodName          = "/user.api.associateApiService/GetExperiment"
+	AssociateApiService_CreateUser_FullMethodName             = "/user.api.associateApiService/CreateUser"
+	AssociateApiService_ListUsers_FullMethodName              = "/user.api.associateApiService/ListUsers"
+	AssociateApiService_GetUser_FullMethodName                = "/user.api.associateApiService/GetUser"
+	AssociateApiService_Login_FullMethodName                  = "/user.api.associateApiService/Login"
+	AssociateApiService_Logout_FullMethodName                 = "/user.api.associateApiService/Logout"
+	AssociateApiService_CreateRole_FullMethodName             = "/user.api.associateApiService/CreateRole"
+	AssociateApiService_UpdateRole_FullMethodName             = "/user.api.associateApiService/UpdateRole"
+	AssociateApiService_DeleteRole_FullMethodName             = "/user.api.associateApiService/DeleteRole"
+	AssociateApiService_GetRole_FullMethodName                = "/user.api.associateApiService/GetRole"
+	AssociateApiService_ListRoles_FullMethodName              = "/user.api.associateApiService/ListRoles"
+	AssociateApiService_CreateUserRole_FullMethodName         = "/user.api.associateApiService/CreateUserRole"
+	AssociateApiService_GetUserRole_FullMethodName            = "/user.api.associateApiService/GetUserRole"
+	AssociateApiService_DeleteUserRole_FullMethodName         = "/user.api.associateApiService/DeleteUserRole"
+	AssociateApiService_ListUserRoles_FullMethodName          = "/user.api.associateApiService/ListUserRoles"
 )
 
 // AssociateApiServiceClient is the client API for AssociateApiService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AssociateApiServiceClient interface {
+	ListStimusWords(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListStimusWordsResponse, error)
+	CreateExperiment(ctx context.Context, in *CreateExperimentRequest, opts ...grpc.CallOption) (*CreateExperimentResponse, error)
+	CreateExperimentResult(ctx context.Context, in *CreateExperimentResultRequest, opts ...grpc.CallOption) (*CreateExperimentResultResponse, error)
+	GetExperiment(ctx context.Context, in *GetExperimentRequest, opts ...grpc.CallOption) (*GetExperimentResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	ListUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListUsersResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	SessionCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SessionCheckResponse, error)
 	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*CreateRoleResponse, error)
 	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*UpdateRoleResponse, error)
 	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -64,6 +70,42 @@ type associateApiServiceClient struct {
 
 func NewAssociateApiServiceClient(cc grpc.ClientConnInterface) AssociateApiServiceClient {
 	return &associateApiServiceClient{cc}
+}
+
+func (c *associateApiServiceClient) ListStimusWords(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListStimusWordsResponse, error) {
+	out := new(ListStimusWordsResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_ListStimusWords_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *associateApiServiceClient) CreateExperiment(ctx context.Context, in *CreateExperimentRequest, opts ...grpc.CallOption) (*CreateExperimentResponse, error) {
+	out := new(CreateExperimentResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_CreateExperiment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *associateApiServiceClient) CreateExperimentResult(ctx context.Context, in *CreateExperimentResultRequest, opts ...grpc.CallOption) (*CreateExperimentResultResponse, error) {
+	out := new(CreateExperimentResultResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_CreateExperimentResult_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *associateApiServiceClient) GetExperiment(ctx context.Context, in *GetExperimentRequest, opts ...grpc.CallOption) (*GetExperimentResponse, error) {
+	out := new(GetExperimentResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_GetExperiment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *associateApiServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
@@ -105,15 +147,6 @@ func (c *associateApiServiceClient) Login(ctx context.Context, in *LoginRequest,
 func (c *associateApiServiceClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AssociateApiService_Logout_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *associateApiServiceClient) SessionCheck(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*SessionCheckResponse, error) {
-	out := new(SessionCheckResponse)
-	err := c.cc.Invoke(ctx, AssociateApiService_SessionCheck_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -205,12 +238,15 @@ func (c *associateApiServiceClient) ListUserRoles(ctx context.Context, in *ListU
 // All implementations must embed UnimplementedAssociateApiServiceServer
 // for forward compatibility
 type AssociateApiServiceServer interface {
+	ListStimusWords(context.Context, *emptypb.Empty) (*ListStimusWordsResponse, error)
+	CreateExperiment(context.Context, *CreateExperimentRequest) (*CreateExperimentResponse, error)
+	CreateExperimentResult(context.Context, *CreateExperimentResultRequest) (*CreateExperimentResultResponse, error)
+	GetExperiment(context.Context, *GetExperimentRequest) (*GetExperimentResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	ListUsers(context.Context, *emptypb.Empty) (*ListUsersResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
-	SessionCheck(context.Context, *emptypb.Empty) (*SessionCheckResponse, error)
 	CreateRole(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error)
 	UpdateRole(context.Context, *UpdateRoleRequest) (*UpdateRoleResponse, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*emptypb.Empty, error)
@@ -227,6 +263,18 @@ type AssociateApiServiceServer interface {
 type UnimplementedAssociateApiServiceServer struct {
 }
 
+func (UnimplementedAssociateApiServiceServer) ListStimusWords(context.Context, *emptypb.Empty) (*ListStimusWordsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStimusWords not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) CreateExperiment(context.Context, *CreateExperimentRequest) (*CreateExperimentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateExperiment not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) CreateExperimentResult(context.Context, *CreateExperimentResultRequest) (*CreateExperimentResultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateExperimentResult not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) GetExperiment(context.Context, *GetExperimentRequest) (*GetExperimentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetExperiment not implemented")
+}
 func (UnimplementedAssociateApiServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
@@ -241,9 +289,6 @@ func (UnimplementedAssociateApiServiceServer) Login(context.Context, *LoginReque
 }
 func (UnimplementedAssociateApiServiceServer) Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
-}
-func (UnimplementedAssociateApiServiceServer) SessionCheck(context.Context, *emptypb.Empty) (*SessionCheckResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SessionCheck not implemented")
 }
 func (UnimplementedAssociateApiServiceServer) CreateRole(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
@@ -283,6 +328,78 @@ type UnsafeAssociateApiServiceServer interface {
 
 func RegisterAssociateApiServiceServer(s grpc.ServiceRegistrar, srv AssociateApiServiceServer) {
 	s.RegisterService(&AssociateApiService_ServiceDesc, srv)
+}
+
+func _AssociateApiService_ListStimusWords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).ListStimusWords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_ListStimusWords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).ListStimusWords(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssociateApiService_CreateExperiment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateExperimentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).CreateExperiment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_CreateExperiment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).CreateExperiment(ctx, req.(*CreateExperimentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssociateApiService_CreateExperimentResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateExperimentResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).CreateExperimentResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_CreateExperimentResult_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).CreateExperimentResult(ctx, req.(*CreateExperimentResultRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssociateApiService_GetExperiment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetExperimentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).GetExperiment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_GetExperiment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).GetExperiment(ctx, req.(*GetExperimentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _AssociateApiService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -371,24 +488,6 @@ func _AssociateApiService_Logout_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AssociateApiServiceServer).Logout(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AssociateApiService_SessionCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AssociateApiServiceServer).SessionCheck(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AssociateApiService_SessionCheck_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AssociateApiServiceServer).SessionCheck(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -563,6 +662,22 @@ var AssociateApiService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AssociateApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "ListStimusWords",
+			Handler:    _AssociateApiService_ListStimusWords_Handler,
+		},
+		{
+			MethodName: "CreateExperiment",
+			Handler:    _AssociateApiService_CreateExperiment_Handler,
+		},
+		{
+			MethodName: "CreateExperimentResult",
+			Handler:    _AssociateApiService_CreateExperimentResult_Handler,
+		},
+		{
+			MethodName: "GetExperiment",
+			Handler:    _AssociateApiService_GetExperiment_Handler,
+		},
+		{
 			MethodName: "CreateUser",
 			Handler:    _AssociateApiService_CreateUser_Handler,
 		},
@@ -581,10 +696,6 @@ var AssociateApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Logout",
 			Handler:    _AssociateApiService_Logout_Handler,
-		},
-		{
-			MethodName: "SessionCheck",
-			Handler:    _AssociateApiService_SessionCheck_Handler,
 		},
 		{
 			MethodName: "CreateRole",

@@ -7,7 +7,7 @@ CREATE TABLE users(
     patronymic varchar(100),
     password bytea not null,
     phone varchar(100),
-    email varchar(200) not null,
+    email varchar(200) not null
 );
 
 -- +goose StatementEnd

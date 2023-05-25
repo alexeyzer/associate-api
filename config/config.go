@@ -2,8 +2,13 @@ package config
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v3"
+)
+
+var (
+	SessionKey = "Authorization"
 )
 
 type config struct {

@@ -6,20 +6,34 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
+import "google/protobuf/wrappers.proto";
 
  service associateApiService {
+  rpc ListStimusWords(google.protobuf.Empty) returns (ListStimusWordsResponse) {
+    option (google.api.http) = {
+      get: "/v1/stimus-word"
+    };
+  };
+
   rpc CreateExperiment(CreateExperimentRequest) returns (CreateExperimentResponse) {
     option (google.api.http) = {
       post: "/v1/experiment"
       body: "*"
     };
-  }
+  };
+
+  rpc CreateExperimentResult(CreateExperimentResultRequest) returns (CreateExperimentResultResponse) {
+    option (google.api.http) = {
+      post: "/v1/experiment-result"
+      body: "*"
+    };
+  };
 
   rpc GetExperiment(GetExperimentRequest) returns (GetExperimentResponse) {
     option (google.api.http) = {
       get: "/v1/experiment"
     };
-  }
+  };
 
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
@@ -51,13 +65,6 @@ import "validate/validate.proto";
    rpc Logout(google.protobuf.Empty) returns (google.protobuf.Empty) {
      option (google.api.http) = {
        post: "/v1/logout"
-       body: "*"
-     };
-   };
-
-   rpc SessionCheck(google.protobuf.Empty) returns (SessionCheckResponse) {
-     option (google.api.http) = {
-       post: "/v1/session/check"
        body: "*"
      };
    };
@@ -119,6 +126,30 @@ import "validate/validate.proto";
    };
  }
 
+ message CreateExperimentResultRequest {
+  int64 experiment_id = 1;
+  int64 user_id = 2;
+  bool is_anonymous  = 3;
+  repeated ExperimentWords answers = 4;
+ }
+
+ message CreateExperimentResultResponse {}
+
+ message ExperimentWords {
+  int64 stimus_word_id = 1;
+  string assotiation_word = 3;
+  int64 time_spend = 4;
+ }
+
+ message ListStimusWordsResponse {
+  repeated StimusWord words = 1;
+ }
+
+ message StimusWord {
+  int64 id = 1;
+  string name = 2;
+ }
+
  message GetExperimentRequest {
   int64 id = 1;
  }
@@ -126,15 +157,22 @@ import "validate/validate.proto";
  message GetExperimentResponse {
   int64 id = 1;
   string name = 2;
-  google.protobuf.int32 requeired_amount = 3;
-  repeated stimus_word_id = 4;
+  google.protobuf.StringValue description = 3;
+  google.protobuf.Int64Value requeired_amount = 4;
+  repeated ExperimentStimuses experiment_stimuses = 5;
  }
  
  message CreateExperimentRequest {
   string name = 1;
-  google.protobuf.int32 requeired_amount_of_answers = 2;
-  google.protobuf.Timestamp due_date = 3;
-  repeated string stimus_word = 4;
+  google.protobuf.StringValue description = 2;
+  google.protobuf.Int64Value requeired_amount = 3;
+  repeated ExperimentStimuses experiment_stimuses = 4;
+ }
+
+ message ExperimentStimuses {
+  google.protobuf.Int64Value id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.Int64Value limited_response_time = 3; // seconds
  }
 
  message CreateExperimentResponse {
@@ -214,12 +252,6 @@ message GetUserRoleResponse {
    string name = 2;
    string description = 3;
  }
-
-message SessionCheckResponse {
-  string email = 1;
-  repeated string user_roles = 2;
-  int64 user_id = 3;
-}
 
 message ListRolesResponse {
    repeated GetRoleResponse roles = 1;

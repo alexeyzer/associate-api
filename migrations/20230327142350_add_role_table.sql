@@ -1,9 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE role(
-                      id SERIAL,
-                      name varchar(100) not null,
-                      description varchar(300)
+    id SERIAL,
+    name varchar(100) not null,
+    description varchar(300)
 );
 -- +goose StatementEnd
 
