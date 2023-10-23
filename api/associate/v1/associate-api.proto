@@ -35,6 +35,12 @@ import "google/protobuf/wrappers.proto";
     };
   };
 
+  rpc ListExperiment(ListExperimentRequest) returns (ListExperimentResponse) {
+    option (google.api.http) = {
+      get: "/v1/experiment/list"
+    };
+  };
+
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option (google.api.http) = {
       post: "/v1/user"
@@ -126,6 +132,22 @@ import "google/protobuf/wrappers.proto";
    };
  }
 
+ message ListExperimentRequest {
+  Page page = 1;
+ }
+
+ message ListExperimentResponse {
+  repeated Experiment experiments = 1;
+
+  message Experiment {
+    int64 id = 1;
+    string name = 2;
+    google.protobuf.StringValue description = 3;
+    int64 conducted_experiments = 4;
+    google.protobuf.Int64Value requeired_amount = 5;
+  }
+ }
+
  message CreateExperimentResultRequest {
   int64 experiment_id = 1;
   int64 user_id = 2;
@@ -160,8 +182,16 @@ import "google/protobuf/wrappers.proto";
   google.protobuf.StringValue description = 3;
   google.protobuf.Int64Value requeired_amount = 4;
   repeated ExperimentStimuses experiment_stimuses = 5;
+  int64 conducted_experiments = 6;
+  repeated ExperimentAssociations experiment_assotiations = 7;
  }
  
+ message ExperimentAssociations {
+    int64 stimus_word_id = 1;
+    string assotiation_word = 2;
+    int64 time_spend = 3;
+  }
+
  message CreateExperimentRequest {
   string name = 1;
   google.protobuf.StringValue description = 2;
@@ -308,4 +338,9 @@ message LoginResponse {
    string session = 7;
    bool access_to_admin_panel = 8;
    repeated CreateRoleResponse roles = 9;
+}
+
+message Page {
+  int64 number = 1;
+  int64 limit = 2;
 }

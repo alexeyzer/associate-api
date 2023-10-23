@@ -24,6 +24,7 @@ const (
 	AssociateApiService_CreateExperiment_FullMethodName       = "/user.api.associateApiService/CreateExperiment"
 	AssociateApiService_CreateExperimentResult_FullMethodName = "/user.api.associateApiService/CreateExperimentResult"
 	AssociateApiService_GetExperiment_FullMethodName          = "/user.api.associateApiService/GetExperiment"
+	AssociateApiService_ListExperiment_FullMethodName         = "/user.api.associateApiService/ListExperiment"
 	AssociateApiService_CreateUser_FullMethodName             = "/user.api.associateApiService/CreateUser"
 	AssociateApiService_ListUsers_FullMethodName              = "/user.api.associateApiService/ListUsers"
 	AssociateApiService_GetUser_FullMethodName                = "/user.api.associateApiService/GetUser"
@@ -48,6 +49,7 @@ type AssociateApiServiceClient interface {
 	CreateExperiment(ctx context.Context, in *CreateExperimentRequest, opts ...grpc.CallOption) (*CreateExperimentResponse, error)
 	CreateExperimentResult(ctx context.Context, in *CreateExperimentResultRequest, opts ...grpc.CallOption) (*CreateExperimentResultResponse, error)
 	GetExperiment(ctx context.Context, in *GetExperimentRequest, opts ...grpc.CallOption) (*GetExperimentResponse, error)
+	ListExperiment(ctx context.Context, in *ListExperimentRequest, opts ...grpc.CallOption) (*ListExperimentResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	ListUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListUsersResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
@@ -102,6 +104,15 @@ func (c *associateApiServiceClient) CreateExperimentResult(ctx context.Context, 
 func (c *associateApiServiceClient) GetExperiment(ctx context.Context, in *GetExperimentRequest, opts ...grpc.CallOption) (*GetExperimentResponse, error) {
 	out := new(GetExperimentResponse)
 	err := c.cc.Invoke(ctx, AssociateApiService_GetExperiment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *associateApiServiceClient) ListExperiment(ctx context.Context, in *ListExperimentRequest, opts ...grpc.CallOption) (*ListExperimentResponse, error) {
+	out := new(ListExperimentResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_ListExperiment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -242,6 +253,7 @@ type AssociateApiServiceServer interface {
 	CreateExperiment(context.Context, *CreateExperimentRequest) (*CreateExperimentResponse, error)
 	CreateExperimentResult(context.Context, *CreateExperimentResultRequest) (*CreateExperimentResultResponse, error)
 	GetExperiment(context.Context, *GetExperimentRequest) (*GetExperimentResponse, error)
+	ListExperiment(context.Context, *ListExperimentRequest) (*ListExperimentResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	ListUsers(context.Context, *emptypb.Empty) (*ListUsersResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
@@ -274,6 +286,9 @@ func (UnimplementedAssociateApiServiceServer) CreateExperimentResult(context.Con
 }
 func (UnimplementedAssociateApiServiceServer) GetExperiment(context.Context, *GetExperimentRequest) (*GetExperimentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExperiment not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) ListExperiment(context.Context, *ListExperimentRequest) (*ListExperimentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListExperiment not implemented")
 }
 func (UnimplementedAssociateApiServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -398,6 +413,24 @@ func _AssociateApiService_GetExperiment_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AssociateApiServiceServer).GetExperiment(ctx, req.(*GetExperimentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssociateApiService_ListExperiment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListExperimentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).ListExperiment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_ListExperiment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).ListExperiment(ctx, req.(*ListExperimentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -676,6 +709,10 @@ var AssociateApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetExperiment",
 			Handler:    _AssociateApiService_GetExperiment_Handler,
+		},
+		{
+			MethodName: "ListExperiment",
+			Handler:    _AssociateApiService_ListExperiment_Handler,
 		},
 		{
 			MethodName: "CreateUser",

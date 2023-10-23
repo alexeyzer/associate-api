@@ -109,6 +109,44 @@
         ]
       }
     },
+    "/v1/experiment/list": {
+      "get": {
+        "operationId": "associateApiService_ListExperiment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListExperimentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page.number",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page.limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
     "/v1/login": {
       "post": {
         "operationId": "associateApiService_Login",
@@ -148,6 +186,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
+              "type": "object",
               "properties": {}
             }
           },
@@ -164,6 +203,7 @@
             "in": "body",
             "required": true,
             "schema": {
+              "type": "object",
               "properties": {}
             }
           }
@@ -209,6 +249,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
+              "type": "object",
               "properties": {}
             }
           },
@@ -434,6 +475,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
+              "type": "object",
               "properties": {}
             }
           },
@@ -555,6 +597,29 @@
         }
       }
     },
+    "ListExperimentResponseExperiment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "conductedExperiments": {
+          "type": "string",
+          "format": "int64"
+        },
+        "requeiredAmount": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "apiCreateExperimentRequest": {
       "type": "object",
       "properties": {
@@ -571,6 +636,7 @@
         "experimentStimuses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiExperimentStimuses"
           }
         }
@@ -602,6 +668,7 @@
         "answers": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiExperimentWords"
           }
         }
@@ -713,6 +780,22 @@
         }
       }
     },
+    "apiExperimentAssociations": {
+      "type": "object",
+      "properties": {
+        "stimusWordId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "assotiationWord": {
+          "type": "string"
+        },
+        "timeSpend": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "apiExperimentStimuses": {
       "type": "object",
       "properties": {
@@ -725,7 +808,8 @@
         },
         "limitedResponseTime": {
           "type": "string",
-          "format": "int64"
+          "format": "int64",
+          "title": "seconds"
         }
       }
     },
@@ -765,7 +849,19 @@
         "experimentStimuses": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiExperimentStimuses"
+          }
+        },
+        "conductedExperiments": {
+          "type": "string",
+          "format": "int64"
+        },
+        "experimentAssotiations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiExperimentAssociations"
           }
         }
       }
@@ -810,6 +906,7 @@
         "roles": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/GetUserResponseUserRoles"
           }
         }
@@ -832,12 +929,25 @@
         }
       }
     },
+    "apiListExperimentResponse": {
+      "type": "object",
+      "properties": {
+        "experiments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/ListExperimentResponseExperiment"
+          }
+        }
+      }
+    },
     "apiListRolesResponse": {
       "type": "object",
       "properties": {
         "roles": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiGetRoleResponse"
           }
         }
@@ -849,6 +959,7 @@
         "words": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiStimusWord"
           }
         }
@@ -871,6 +982,7 @@
         "users": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiCreateUserResponse"
           }
         }
@@ -918,8 +1030,22 @@
         "roles": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/apiCreateRoleResponse"
           }
+        }
+      }
+    },
+    "apiPage": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "string",
+          "format": "int64"
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -987,6 +1113,7 @@
         "details": {
           "type": "array",
           "items": {
+            "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
         }

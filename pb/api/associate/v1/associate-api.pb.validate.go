@@ -35,6 +35,273 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on ListExperimentRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListExperimentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListExperimentRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListExperimentRequestMultiError, or nil if none found.
+func (m *ListExperimentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListExperimentRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetPage()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListExperimentRequestValidationError{
+					field:  "Page",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListExperimentRequestValidationError{
+					field:  "Page",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetPage()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListExperimentRequestValidationError{
+				field:  "Page",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ListExperimentRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListExperimentRequestMultiError is an error wrapping multiple validation
+// errors returned by ListExperimentRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListExperimentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListExperimentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListExperimentRequestMultiError) AllErrors() []error { return m }
+
+// ListExperimentRequestValidationError is the validation error returned by
+// ListExperimentRequest.Validate if the designated constraints aren't met.
+type ListExperimentRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListExperimentRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListExperimentRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListExperimentRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListExperimentRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListExperimentRequestValidationError) ErrorName() string {
+	return "ListExperimentRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListExperimentRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListExperimentRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListExperimentRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListExperimentRequestValidationError{}
+
+// Validate checks the field values on ListExperimentResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListExperimentResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListExperimentResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListExperimentResponseMultiError, or nil if none found.
+func (m *ListExperimentResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListExperimentResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetExperiments() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListExperimentResponseValidationError{
+						field:  fmt.Sprintf("Experiments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListExperimentResponseValidationError{
+						field:  fmt.Sprintf("Experiments[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListExperimentResponseValidationError{
+					field:  fmt.Sprintf("Experiments[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ListExperimentResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListExperimentResponseMultiError is an error wrapping multiple validation
+// errors returned by ListExperimentResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ListExperimentResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListExperimentResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListExperimentResponseMultiError) AllErrors() []error { return m }
+
+// ListExperimentResponseValidationError is the validation error returned by
+// ListExperimentResponse.Validate if the designated constraints aren't met.
+type ListExperimentResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListExperimentResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListExperimentResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListExperimentResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListExperimentResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListExperimentResponseValidationError) ErrorName() string {
+	return "ListExperimentResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListExperimentResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListExperimentResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListExperimentResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListExperimentResponseValidationError{}
+
 // Validate checks the field values on CreateExperimentResultRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -848,6 +1115,42 @@ func (m *GetExperimentResponse) validate(all bool) error {
 
 	}
 
+	// no validation rules for ConductedExperiments
+
+	for idx, item := range m.GetExperimentAssotiations() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentResponseValidationError{
+						field:  fmt.Sprintf("ExperimentAssotiations[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentResponseValidationError{
+						field:  fmt.Sprintf("ExperimentAssotiations[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentResponseValidationError{
+					field:  fmt.Sprintf("ExperimentAssotiations[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetExperimentResponseMultiError(errors)
 	}
@@ -927,6 +1230,114 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetExperimentResponseValidationError{}
+
+// Validate checks the field values on ExperimentAssociations with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ExperimentAssociations) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExperimentAssociations with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExperimentAssociationsMultiError, or nil if none found.
+func (m *ExperimentAssociations) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExperimentAssociations) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for StimusWordId
+
+	// no validation rules for AssotiationWord
+
+	// no validation rules for TimeSpend
+
+	if len(errors) > 0 {
+		return ExperimentAssociationsMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExperimentAssociationsMultiError is an error wrapping multiple validation
+// errors returned by ExperimentAssociations.ValidateAll() if the designated
+// constraints aren't met.
+type ExperimentAssociationsMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExperimentAssociationsMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExperimentAssociationsMultiError) AllErrors() []error { return m }
+
+// ExperimentAssociationsValidationError is the validation error returned by
+// ExperimentAssociations.Validate if the designated constraints aren't met.
+type ExperimentAssociationsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExperimentAssociationsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExperimentAssociationsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExperimentAssociationsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExperimentAssociationsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExperimentAssociationsValidationError) ErrorName() string {
+	return "ExperimentAssociationsValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ExperimentAssociationsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExperimentAssociations.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExperimentAssociationsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExperimentAssociationsValidationError{}
 
 // Validate checks the field values on CreateExperimentRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -4060,6 +4471,277 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = LoginResponseValidationError{}
+
+// Validate checks the field values on Page with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Page) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Page with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in PageMultiError, or nil if none found.
+func (m *Page) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Page) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Number
+
+	// no validation rules for Limit
+
+	if len(errors) > 0 {
+		return PageMultiError(errors)
+	}
+
+	return nil
+}
+
+// PageMultiError is an error wrapping multiple validation errors returned by
+// Page.ValidateAll() if the designated constraints aren't met.
+type PageMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PageMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PageMultiError) AllErrors() []error { return m }
+
+// PageValidationError is the validation error returned by Page.Validate if the
+// designated constraints aren't met.
+type PageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PageValidationError) ErrorName() string { return "PageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPage.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PageValidationError{}
+
+// Validate checks the field values on ListExperimentResponse_Experiment with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ListExperimentResponse_Experiment) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListExperimentResponse_Experiment
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ListExperimentResponse_ExperimentMultiError, or nil if none found.
+func (m *ListExperimentResponse_Experiment) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListExperimentResponse_Experiment) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if all {
+		switch v := interface{}(m.GetDescription()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListExperimentResponse_ExperimentValidationError{
+					field:  "Description",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListExperimentResponse_ExperimentValidationError{
+					field:  "Description",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetDescription()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListExperimentResponse_ExperimentValidationError{
+				field:  "Description",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for ConductedExperiments
+
+	if all {
+		switch v := interface{}(m.GetRequeiredAmount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListExperimentResponse_ExperimentValidationError{
+					field:  "RequeiredAmount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListExperimentResponse_ExperimentValidationError{
+					field:  "RequeiredAmount",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRequeiredAmount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListExperimentResponse_ExperimentValidationError{
+				field:  "RequeiredAmount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ListExperimentResponse_ExperimentMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListExperimentResponse_ExperimentMultiError is an error wrapping multiple
+// validation errors returned by
+// ListExperimentResponse_Experiment.ValidateAll() if the designated
+// constraints aren't met.
+type ListExperimentResponse_ExperimentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListExperimentResponse_ExperimentMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListExperimentResponse_ExperimentMultiError) AllErrors() []error { return m }
+
+// ListExperimentResponse_ExperimentValidationError is the validation error
+// returned by ListExperimentResponse_Experiment.Validate if the designated
+// constraints aren't met.
+type ListExperimentResponse_ExperimentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListExperimentResponse_ExperimentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListExperimentResponse_ExperimentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListExperimentResponse_ExperimentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListExperimentResponse_ExperimentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListExperimentResponse_ExperimentValidationError) ErrorName() string {
+	return "ListExperimentResponse_ExperimentValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListExperimentResponse_ExperimentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListExperimentResponse_Experiment.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListExperimentResponse_ExperimentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListExperimentResponse_ExperimentValidationError{}
 
 // Validate checks the field values on GetUserResponse_UserRoles with the rules
 // defined in the proto definition for this message. If any rules are
