@@ -3,7 +3,8 @@
 CREATE TABLE experiment_result(
     id SERIAL,
     experiment_id bigint not null,
-    user_id bigint not null,
+    user_id bigint,
+    session_id bigint,
     is_anonymous bool not null,
     stimus_word_id bigint not null,
     assotiation_word_id bigint,

@@ -13,7 +13,7 @@ type ExperimentQuery interface {
 	Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
 	GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error)
 	Exists(ctx context.Context, name string) (bool, error)
-	List(ctx context.Context) ([]*datastruct.Experiment, error)
+	List(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error)
 }
 
 type experimentQuery struct {
@@ -21,10 +21,18 @@ type experimentQuery struct {
 	db      *sqlx.DB
 }
 
-func (q *experimentQuery) List(ctx context.Context) ([]*datastruct.Experiment, error) {
+func (q *experimentQuery) List(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error) {
 	qb := q.builder.
 		Select("*").
 		From(datastruct.ExperimentTableName)
+
+	if limit != 0 {
+		qb = qb.Limit(uint64(limit))
+	}
+	if number != 0 {
+		qb = qb.Offset(uint64(number - 1*limit))
+	}
+
 	query, args, err := qb.ToSql()
 	if err != nil {
 		return nil, err
