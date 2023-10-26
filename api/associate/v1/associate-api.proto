@@ -137,15 +137,7 @@ import "google/protobuf/wrappers.proto";
  }
 
  message ListExperimentResponse {
-  repeated Experiment experiments = 1;
-
-  message Experiment {
-    int64 id = 1;
-    string name = 2;
-    google.protobuf.StringValue description = 3;
-    int64 conducted_experiments = 4;
-    google.protobuf.Int64Value requeired_amount = 5;
-  }
+  repeated GetExperimentResponse experiments = 1;
  }
 
  message CreateExperimentResultRequest {
@@ -184,6 +176,7 @@ import "google/protobuf/wrappers.proto";
   repeated ExperimentStimuses experiment_stimuses = 5;
   int64 conducted_experiments = 6;
   repeated ExperimentAssociations experiment_assotiations = 7;
+  Experiment_status status = 8;
  }
  
  message ExperimentAssociations {
@@ -343,4 +336,12 @@ message LoginResponse {
 message Page {
   int64 number = 1;
   int64 limit = 2;
+}
+
+enum Experiment_status {
+ UNKNOWN = 0;
+ CREATED= 1;
+ IN_PROGRESS = 3;
+ CANCELED = 4;
+ DONE = 5;
 }
