@@ -597,29 +597,6 @@
         }
       }
     },
-    "ListExperimentResponseExperiment": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "conductedExperiments": {
-          "type": "string",
-          "format": "int64"
-        },
-        "requeiredAmount": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "apiCreateExperimentRequest": {
       "type": "object",
       "properties": {
@@ -829,6 +806,17 @@
         }
       }
     },
+    "apiExperiment_status": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "CREATED",
+        "IN_PROGRESS",
+        "CANCELED",
+        "DONE"
+      ],
+      "default": "UNKNOWN"
+    },
     "apiGetExperimentResponse": {
       "type": "object",
       "properties": {
@@ -863,6 +851,9 @@
             "type": "object",
             "$ref": "#/definitions/apiExperimentAssociations"
           }
+        },
+        "status": {
+          "$ref": "#/definitions/apiExperiment_status"
         }
       }
     },
@@ -936,7 +927,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/ListExperimentResponseExperiment"
+            "$ref": "#/definitions/apiGetExperimentResponse"
           }
         }
       }
