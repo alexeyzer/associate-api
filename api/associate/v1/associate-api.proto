@@ -134,6 +134,7 @@ import "google/protobuf/wrappers.proto";
 
  message ListExperimentRequest {
   Page page = 1;
+  bool user_experiments = 2;
  }
 
  message ListExperimentResponse {
@@ -177,6 +178,7 @@ import "google/protobuf/wrappers.proto";
   int64 conducted_experiments = 6;
   repeated ExperimentAssociations experiment_assotiations = 7;
   Experiment_status status = 8;
+  bool experiment_passed = 9;
  }
  
  message ExperimentAssociations {

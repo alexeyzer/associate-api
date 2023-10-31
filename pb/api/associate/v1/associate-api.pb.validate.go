@@ -86,6 +86,8 @@ func (m *ListExperimentRequest) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for UserExperiments
+
 	if len(errors) > 0 {
 		return ListExperimentRequestMultiError(errors)
 	}
@@ -1152,6 +1154,8 @@ func (m *GetExperimentResponse) validate(all bool) error {
 	}
 
 	// no validation rules for Status
+
+	// no validation rules for ExperimentPassed
 
 	if len(errors) > 0 {
 		return GetExperimentResponseMultiError(errors)

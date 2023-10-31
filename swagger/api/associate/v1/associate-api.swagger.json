@@ -140,6 +140,12 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "userExperiments",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "tags": [
@@ -854,6 +860,9 @@
         },
         "status": {
           "$ref": "#/definitions/apiExperiment_status"
+        },
+        "experimentPassed": {
+          "type": "boolean"
         }
       }
     },
