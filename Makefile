@@ -10,4 +10,4 @@ build-image:
 	docker build --no-cache -t associate-api .
 
 up:
-	goose up ""
+	goose postgres "host=database user=test password=test dbname=test sslmode=disable" status

@@ -57,7 +57,7 @@ func (s *userService) createSession(ctx context.Context, user *datastruct.User) 
 	if err != nil {
 		log.Warnf("failed to create sessionID for user = %s, err: %s", user.Email, err)
 	}
-	grpc.SetHeader(ctx, metadata.Pairs(config.SessionKey, sessionID));
+	grpc.SetHeader(ctx, metadata.Pairs(config.SessionKey, sessionID))
 	return sessionID
 }
 
@@ -101,7 +101,20 @@ func (s *userService) SessionCheck(ctx context.Context, sessionID string) (*data
 }
 
 func (s *userService) Login(ctx context.Context, req *desc.LoginRequest) ([]*datastruct.UserRoleWithName, string, *datastruct.User, error) {
-
+	exists, err := s.dao.UserQuery().Exists(ctx, req.Email)
+	if err != nil {
+		return nil, "", nil, err
+	}
+	if exists == false {
+		res, err := s.CreateUser(ctx, &desc.CreateUserRequest{
+			Email:    req.Email,
+			Password: req.Password,
+		})
+		if err != nil {
+			return nil, "", nil, err
+		}
+		return nil, s.createSession(ctx, res), res, nil
+	}
 	user, err := s.dao.UserQuery().Get(ctx, req.Email)
 	if err != nil {
 		return nil, "", nil, err

@@ -25,11 +25,12 @@ type Experiment struct {
 	RequiredAmount     *int64             `db:"required_amount"`
 	ExperimentStimuses ExperimentStimuses `db:"experiment_stimuses"`
 	Status             ExperimentStatus   `db:"status"`
+	ConducductedAmount int64              `db:"conducducted_amount"`
 }
 
 type ExperimentStimus struct {
-	StimusID            int64  `db:"stimus_id"`
-	Name string
+	StimusID            int64 `db:"stimus_id"`
+	Name                string
 	LimitedResponseTime *int64 `db:"limited_response_time"`
 }
 
