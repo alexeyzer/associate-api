@@ -19,16 +19,20 @@ func (s *AssociateApiServiceServer) GetExperiment(ctx context.Context, req *desc
 		return nil, err
 	}
 
+	return datastructExperimentToPB(res), nil
+}
+
+func datastructExperimentToPB(d *datastruct.Experiment) *desc.GetExperimentResponse {
 	response := &desc.GetExperimentResponse{
-		Id:                 res.ID,
-		Name:               res.Name,
-		ExperimentStimuses: make([]*desc.ExperimentStimuses, 0, len(res.ExperimentStimuses)),
+		Id:                 d.ID,
+		Name:               d.Name,
+		ExperimentStimuses: make([]*desc.ExperimentStimuses, 0, len(d.ExperimentStimuses)),
 	}
-	for _, stimus := range res.ExperimentStimuses {
+	for _, stimus := range d.ExperimentStimuses {
 		response.ExperimentStimuses = append(response.ExperimentStimuses, ExperimentStimusTopb(stimus))
 	}
 
-	return response, nil
+	return response
 }
 
 func ExperimentStimusTopb(d *datastruct.ExperimentStimus) *desc.ExperimentStimuses {

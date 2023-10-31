@@ -13,10 +13,15 @@ import (
 type ExperimentService interface {
 	CreateExperiment(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
 	GetExperiment(ctx context.Context, id int64) (*datastruct.Experiment, error)
+	ListExperiment(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error)
 }
 
 type experimentService struct {
 	dao repository.DAO
+}
+
+func (e *experimentService) ListExperiment(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error) {
+	return e.dao.ExperimentQuery().List(ctx, number, limit)
 }
 
 func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error) {
@@ -28,7 +33,7 @@ func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct
 			}
 		}
 		if stimus.Name != "" {
-			
+
 			res, err := e.dao.StimusWordQuery().Create(ctx, datastruct.StimusWord{
 				Name: stimus.Name,
 			})
@@ -38,8 +43,7 @@ func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct
 			stimus.StimusID = res.ID
 		}
 	}
-	
-	
+
 	exists, err := e.dao.ExperimentQuery().Exists(ctx, req.Name)
 	if err != nil {
 		return nil, err

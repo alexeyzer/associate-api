@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
@@ -37,6 +38,7 @@ type config struct {
 	App struct {
 		HttpPort string `yaml:"http_port"`
 		GrpcPort string `yaml:"grpc_port"`
+		Env      string `yaml:"env"`
 	}
 }
 
@@ -53,5 +55,11 @@ func ReadConf(filename string) error {
 	if err != nil {
 		return fmt.Errorf("in file %q: %v", filename, err)
 	}
+	c.App.Env = os.Getenv("ENV")
+	if c.App.Env == "PROD" {
+		c.Database.Host = "database"
+		c.Redis.Host = "redis"
+	}
+
 	return nil
 }

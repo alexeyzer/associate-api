@@ -15,14 +15,16 @@ services:
       - "6379:6379"
 #pods
   associate-api:
-  image: associate-api
-  ports:
-  - "7000:7000"
-  - "7001:7001"
-  - "7002:7002"
-  networks:
-  - default
-  depends_on:
-  - database
-  - redis
-  restart: always
+    environment:
+      - ENV=PROD
+    image: associate-api
+    ports:
+    - "7000:7000"
+    - "7001:7001"
+    - "7002:7002"
+    networks:
+    - default
+    depends_on:
+    - database
+    - redis
+    restart: always

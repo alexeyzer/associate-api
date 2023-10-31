@@ -7,20 +7,17 @@ import (
 )
 
 func (s *AssociateApiServiceServer) ListExperiment(ctx context.Context, req *desc.ListExperimentRequest) (*desc.ListExperimentResponse, error) {
-	_, err := s.CheckAutorize(ctx)
-	if err != nil {
-		return nil, err
-	}
 
-	res, err := s.experimentService.GetExperiment(ctx, req.GetId())
+	res, err := s.experimentService.ListExperiment(ctx, req.GetPage().GetNumber(), req.GetPage().GetLimit())
 	if err != nil {
 		return nil, err
 	}
 
 	resp := &desc.ListExperimentResponse{
-		Experiments: make([]*desc.ListExperimentResponse_Experiment, 0, 1),
+		Experiments: make([]*desc.GetExperimentResponse, 0, 1),
 	}
 	for _, experiment := range res {
+		resp.Experiments = append(resp.Experiments, datastructExperimentToPB(experiment))
 	}
 
 	return resp, nil

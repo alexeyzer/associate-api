@@ -30,7 +30,7 @@ func (q *experimentQuery) List(ctx context.Context, number, limit int64) ([]*dat
 		qb = qb.Limit(uint64(limit))
 	}
 	if number != 0 {
-		qb = qb.Offset(uint64(number - 1*limit))
+		qb = qb.Offset(uint64((number - 1) * limit))
 	}
 
 	query, args, err := qb.ToSql()

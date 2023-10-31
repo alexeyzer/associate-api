@@ -17,7 +17,7 @@ redis:
   port: "6379"
   password: ""
 app:
-  http_port: "8080"
-  grpc_port: "8082"
+  http_port: "7000"
+  grpc_port: "7001"
 grpc:
   product_api: "51.250.69.184:8082"
