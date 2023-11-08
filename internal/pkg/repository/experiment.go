@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
@@ -13,7 +14,7 @@ type ExperimentQuery interface {
 	Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
 	GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error)
 	Exists(ctx context.Context, name string) (bool, error)
-	List(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error)
+	List(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error)
 }
 
 type experimentQuery struct {
@@ -21,7 +22,7 @@ type experimentQuery struct {
 	db      *sqlx.DB
 }
 
-func (q *experimentQuery) List(ctx context.Context, number, limit int64) ([]*datastruct.Experiment, error) {
+func (q *experimentQuery) List(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error) {
 	qb := q.builder.
 		Select("*").
 		From(datastruct.ExperimentTableName)
@@ -31,6 +32,9 @@ func (q *experimentQuery) List(ctx context.Context, number, limit int64) ([]*dat
 	}
 	if number != 0 {
 		qb = qb.Offset(uint64((number - 1) * limit))
+	}
+	if userExperiments {
+		qb = qb.Where(squirrel.Eq{"creator_id": userID})
 	}
 
 	query, args, err := qb.ToSql()
@@ -57,6 +61,7 @@ func (q *experimentQuery) Create(ctx context.Context, req datastruct.Experiment)
 			"status",
 			"required_amount",
 			"experiment_stimuses",
+			"conducducted_amount",
 		).
 		Values(
 			req.Name,
@@ -65,6 +70,7 @@ func (q *experimentQuery) Create(ctx context.Context, req datastruct.Experiment)
 			req.Status,
 			req.RequiredAmount,
 			req.ExperimentStimuses,
+			0,
 		).
 		Suffix("RETURNING *")
 	query, args, err := qb.ToSql()
@@ -76,6 +82,7 @@ func (q *experimentQuery) Create(ctx context.Context, req datastruct.Experiment)
 
 	err = q.db.GetContext(ctx, &experiment, query, args...)
 	if err != nil {
+		fmt.Print("jere")
 		return nil, err
 	}
 

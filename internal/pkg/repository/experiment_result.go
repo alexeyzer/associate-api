@@ -13,7 +13,7 @@ type ExperimentResultQuery interface {
 	Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
 	GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error)
 	Exists(ctx context.Context, name string) (bool, error)
-	List(ctx context.Context) ([]*datastruct.Experiment, error)
+	List(ctx context.Context, userID int64) ([]*datastruct.ExperimentResult, error)
 }
 
 type experimentResultQuery struct {
@@ -21,23 +21,28 @@ type experimentResultQuery struct {
 	db      *sqlx.DB
 }
 
-func (q *experimentResultQuery) List(ctx context.Context) ([]*datastruct.Experiment, error) {
+func (q *experimentResultQuery) List(ctx context.Context, userID int64) ([]*datastruct.ExperimentResult, error) {
 	qb := q.builder.
 		Select("*").
-		From(datastruct.ExperimentTableName)
+		From(datastruct.ExperimentResultTableName)
+
+	if userID != 0 {
+		qb = qb.Where(squirrel.Eq{"user_id": userID})
+	}
+
 	query, args, err := qb.ToSql()
 	if err != nil {
 		return nil, err
 	}
 
-	var experiments []*datastruct.Experiment
+	var results []*datastruct.ExperimentResult
 
-	err = q.db.SelectContext(ctx, &experiments, query, args...)
+	err = q.db.SelectContext(ctx, &results, query, args...)
 	if err != nil {
 		return nil, err
 	}
 
-	return experiments, nil
+	return results, nil
 }
 
 func (q *experimentResultQuery) Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error) {

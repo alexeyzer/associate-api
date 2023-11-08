@@ -7,8 +7,17 @@ import (
 )
 
 func (s *AssociateApiServiceServer) ListExperiment(ctx context.Context, req *desc.ListExperimentRequest) (*desc.ListExperimentResponse, error) {
+	var userID int64
 
-	res, err := s.experimentService.ListExperiment(ctx, req.GetPage().GetNumber(), req.GetPage().GetLimit())
+	user, err := s.CheckAutorize(ctx)
+	if err == nil {
+		userID = user.ID
+	}
+	if !req.UserExperiments {
+		userID = 0
+	}
+
+	res, err := s.experimentService.ListExperiment(ctx, req.GetPage().GetNumber(), req.GetPage().GetLimit(), userID, req.GetUserExperiments())
 	if err != nil {
 		return nil, err
 	}
