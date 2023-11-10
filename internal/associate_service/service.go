@@ -19,6 +19,7 @@ type AssociateApiServiceServer struct {
 	roleService       service.RoleService
 	userRoleService   service.UserRoleService
 	experimentService service.ExperimentService
+	experimentResultService service.ExperimentResultService
 	stimusWordService service.StimusWordService
 	desc.UnimplementedAssociateApiServiceServer
 }
@@ -77,6 +78,7 @@ func NewAssociateApiServiceServer(
 	roleService service.RoleService,
 	userRoleService service.UserRoleService,
 	experimentService service.ExperimentService,
+	experimentResultService service.ExperimentResultService,
 	stimusWordService service.StimusWordService,
 ) *AssociateApiServiceServer {
 	return &AssociateApiServiceServer{
@@ -84,6 +86,7 @@ func NewAssociateApiServiceServer(
 		roleService:       roleService,
 		userRoleService:   userRoleService,
 		experimentService: experimentService,
+		experimentResultService: experimentResultService,
 		stimusWordService: stimusWordService,
 	}
 }

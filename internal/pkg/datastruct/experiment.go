@@ -27,6 +27,7 @@ type Experiment struct {
 	Status             ExperimentStatus   `db:"status"`
 	ConducductedAmount int64              `db:"conducducted_amount"`
 	UserPassed         bool
+	ExperimentReulsts  []*ExperimentResultList
 }
 
 type ExperimentStimus struct {

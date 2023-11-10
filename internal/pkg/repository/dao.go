@@ -16,6 +16,7 @@ type DAO interface {
 	ExperimentQuery() ExperimentQuery
 	ExperimentResultQuery() ExperimentResultQuery
 	StimusWordQuery() StimusWordQuery
+	AssociateWordQuery() AssociateWordQuery
 }
 
 type dao struct {
@@ -25,6 +26,7 @@ type dao struct {
 	experimentQuery       ExperimentQuery
 	experimentResultQuery ExperimentResultQuery
 	stimusWordQuery       StimusWordQuery
+	associateWordQuery    AssociateWordQuery
 	db                    *sqlx.DB
 }
 
@@ -81,7 +83,7 @@ func (d *dao) ExperimentQuery() ExperimentQuery {
 }
 
 func (d *dao) ExperimentResultQuery() ExperimentResultQuery {
-	if d.experimentQuery == nil {
+	if d.experimentResultQuery == nil {
 		d.experimentResultQuery = NewExperimentResultQuery(d.db)
 	}
 	return d.experimentResultQuery
@@ -92,4 +94,11 @@ func (d *dao) StimusWordQuery() StimusWordQuery {
 		d.stimusWordQuery = NewStimusWordQuery(d.db)
 	}
 	return d.stimusWordQuery
+}
+
+func (d *dao) AssociateWordQuery() AssociateWordQuery {
+	if d.associateWordQuery == nil {
+		d.associateWordQuery = NewAssociateWordQuery(d.db)
+	}
+	return d.associateWordQuery
 }

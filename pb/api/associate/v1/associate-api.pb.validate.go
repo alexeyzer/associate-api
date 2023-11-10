@@ -330,7 +330,7 @@ func (m *CreateExperimentResultRequest) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	// no validation rules for IsAnonymous
+	// no validation rules for SessionId
 
 	for idx, item := range m.GetAnswers() {
 		_, _ = idx, item
@@ -1119,6 +1119,40 @@ func (m *GetExperimentResponse) validate(all bool) error {
 
 	// no validation rules for ConductedExperiments
 
+	for idx, item := range m.GetExperimentGrahp() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentResponseValidationError{
+						field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentResponseValidationError{
+						field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentResponseValidationError{
+					field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	for idx, item := range m.GetExperimentAssotiations() {
 		_, _ = idx, item
 
@@ -1237,6 +1271,112 @@ var _ interface {
 	ErrorName() string
 } = GetExperimentResponseValidationError{}
 
+// Validate checks the field values on ExperimentGrahp with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *ExperimentGrahp) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ExperimentGrahp with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ExperimentGrahpMultiError, or nil if none found.
+func (m *ExperimentGrahp) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ExperimentGrahp) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for StimusWord
+
+	// no validation rules for AssotiationWord
+
+	// no validation rules for Amount
+
+	if len(errors) > 0 {
+		return ExperimentGrahpMultiError(errors)
+	}
+
+	return nil
+}
+
+// ExperimentGrahpMultiError is an error wrapping multiple validation errors
+// returned by ExperimentGrahp.ValidateAll() if the designated constraints
+// aren't met.
+type ExperimentGrahpMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ExperimentGrahpMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ExperimentGrahpMultiError) AllErrors() []error { return m }
+
+// ExperimentGrahpValidationError is the validation error returned by
+// ExperimentGrahp.Validate if the designated constraints aren't met.
+type ExperimentGrahpValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ExperimentGrahpValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ExperimentGrahpValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ExperimentGrahpValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ExperimentGrahpValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ExperimentGrahpValidationError) ErrorName() string { return "ExperimentGrahpValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ExperimentGrahpValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sExperimentGrahp.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ExperimentGrahpValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ExperimentGrahpValidationError{}
+
 // Validate checks the field values on ExperimentAssociations with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -1260,6 +1400,10 @@ func (m *ExperimentAssociations) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for StimusWordId
+
+	// no validation rules for StimusWord
+
+	// no validation rules for AssotiationWordId
 
 	// no validation rules for AssotiationWord
 

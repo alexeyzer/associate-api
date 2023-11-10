@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
@@ -10,10 +9,8 @@ import (
 )
 
 type ExperimentResultQuery interface {
-	Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
-	GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error)
-	Exists(ctx context.Context, name string) (bool, error)
-	List(ctx context.Context, userID int64) ([]*datastruct.ExperimentResult, error)
+	BatchCreate(ctx context.Context, req []*datastruct.ExperimentResult) ([]*datastruct.ExperimentResultResp, error)
+	List(ctx context.Context, userID int64, experimentIDs []int64) ([]*datastruct.ExperimentResultList, error)
 }
 
 type experimentResultQuery struct {
@@ -21,13 +18,19 @@ type experimentResultQuery struct {
 	db      *sqlx.DB
 }
 
-func (q *experimentResultQuery) List(ctx context.Context, userID int64) ([]*datastruct.ExperimentResult, error) {
+func (q *experimentResultQuery) List(ctx context.Context, userID int64, experimentIDs []int64) ([]*datastruct.ExperimentResultList, error) {
 	qb := q.builder.
-		Select("*").
-		From(datastruct.ExperimentResultTableName)
+		Select("ert.*, swt.name as stimus_word, awt.name as assotiation_word").
+		From(datastruct.ExperimentResultTableName + " ert").
+		Join(datastruct.StimusWordTableName + " swt on swt.id = ert.stimus_word_id").
+		Join(datastruct.AssociateWordTableName + " awt on awt.id = ert.assotiation_word_id")
 
 	if userID != 0 {
 		qb = qb.Where(squirrel.Eq{"user_id": userID})
+	}
+
+	if len(experimentIDs) != 0 {
+		qb = qb.Where(squirrel.Eq{"experiment_id": experimentIDs})
 	}
 
 	query, args, err := qb.ToSql()
@@ -35,7 +38,7 @@ func (q *experimentResultQuery) List(ctx context.Context, userID int64) ([]*data
 		return nil, err
 	}
 
-	var results []*datastruct.ExperimentResult
+	var results []*datastruct.ExperimentResultList
 
 	err = q.db.SelectContext(ctx, &results, query, args...)
 	if err != nil {
@@ -45,81 +48,44 @@ func (q *experimentResultQuery) List(ctx context.Context, userID int64) ([]*data
 	return results, nil
 }
 
-func (q *experimentResultQuery) Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error) {
-	qb := q.builder.Insert(datastruct.ExperimentTableName).
+func (q *experimentResultQuery) BatchCreate(ctx context.Context, req []*datastruct.ExperimentResult) ([]*datastruct.ExperimentResultResp, error) {
+	qb := q.builder.Insert(datastruct.ExperimentResultTableName).
 		Columns(
-			"name",
-			"creator_id",
-			"description",
-			"status",
-			"required_amount",
-			"experiment_stimuses",
-		).
-		Values(
-			req.Name,
-			req.CreatorID,
-			req.Description,
-			req.Status,
-			req.RequiredAmount,
-			req.ExperimentStimuses,
-		).
-		Suffix("RETURNING *")
+			"id",
+			"experiment_id",
+			"user_id",
+			"session_id",
+			"stimus_word_id",
+			"assotiation_word_id",
+			"time_spend",
+		)
+
+	for _, r := range req {
+		qb = qb.Values(
+			r.ID,
+			r.ExperimentID,
+			r.UserID,
+			r.SessionID,
+			r.StimusWordID,
+			r.AssotiationWordID,
+			r.TimeSpend,
+		)
+	}
+	qb = qb.Suffix("RETURNING *")
+
 	query, args, err := qb.ToSql()
 	if err != nil {
 		return nil, err
 	}
 
-	var experiment datastruct.Experiment
+	var experimentsResult []*datastruct.ExperimentResultResp
 
-	err = q.db.GetContext(ctx, &experiment, query, args...)
+	err = q.db.SelectContext(ctx, &experimentsResult, query, args...)
 	if err != nil {
 		return nil, err
 	}
 
-	return &experiment, nil
-}
-
-func (q *experimentResultQuery) GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error) {
-	qb := q.builder.
-		Select("*").
-		From(datastruct.ExperimentTableName).
-		Where(squirrel.Eq{"id": ID})
-	query, args, err := qb.ToSql()
-	if err != nil {
-		return nil, err
-	}
-
-	var experiment datastruct.Experiment
-
-	err = q.db.GetContext(ctx, &experiment, query, args...)
-	if err != nil {
-		return nil, err
-	}
-
-	return &experiment, nil
-}
-
-func (q *experimentResultQuery) Exists(ctx context.Context, name string) (bool, error) {
-	qb := q.builder.
-		Select("*").
-		From(datastruct.ExperimentTableName).
-		Where(squirrel.Eq{"name": name})
-	query, args, err := qb.ToSql()
-	if err != nil {
-		return false, err
-	}
-
-	var experiment datastruct.Experiment
-
-	err = q.db.GetContext(ctx, &experiment, query, args...)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return false, nil
-		}
-		return false, err
-	}
-
-	return true, nil
+	return experimentsResult, nil
 }
 
 func NewExperimentResultQuery(db *sqlx.DB) ExperimentResultQuery {

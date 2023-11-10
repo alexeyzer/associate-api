@@ -189,7 +189,7 @@ type CreateExperimentResultRequest struct {
 
 	ExperimentId int64              `protobuf:"varint,1,opt,name=experiment_id,json=experimentId,proto3" json:"experiment_id,omitempty"`
 	UserId       int64              `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	IsAnonymous  bool               `protobuf:"varint,3,opt,name=is_anonymous,json=isAnonymous,proto3" json:"is_anonymous,omitempty"`
+	SessionId    int64              `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	Answers      []*ExperimentWords `protobuf:"bytes,4,rep,name=answers,proto3" json:"answers,omitempty"`
 }
 
@@ -239,11 +239,11 @@ func (x *CreateExperimentResultRequest) GetUserId() int64 {
 	return 0
 }
 
-func (x *CreateExperimentResultRequest) GetIsAnonymous() bool {
+func (x *CreateExperimentResultRequest) GetSessionId() int64 {
 	if x != nil {
-		return x.IsAnonymous
+		return x.SessionId
 	}
-	return false
+	return 0
 }
 
 func (x *CreateExperimentResultRequest) GetAnswers() []*ExperimentWords {
@@ -514,9 +514,11 @@ type GetExperimentResponse struct {
 	RequeiredAmount        *wrapperspb.Int64Value    `protobuf:"bytes,4,opt,name=requeired_amount,json=requeiredAmount,proto3" json:"requeired_amount,omitempty"`
 	ExperimentStimuses     []*ExperimentStimuses     `protobuf:"bytes,5,rep,name=experiment_stimuses,json=experimentStimuses,proto3" json:"experiment_stimuses,omitempty"`
 	ConductedExperiments   int64                     `protobuf:"varint,6,opt,name=conducted_experiments,json=conductedExperiments,proto3" json:"conducted_experiments,omitempty"`
-	ExperimentAssotiations []*ExperimentAssociations `protobuf:"bytes,7,rep,name=experiment_assotiations,json=experimentAssotiations,proto3" json:"experiment_assotiations,omitempty"`
-	Status                 ExperimentStatus          `protobuf:"varint,8,opt,name=status,proto3,enum=user.api.ExperimentStatus" json:"status,omitempty"`
-	ExperimentPassed       bool                      `protobuf:"varint,9,opt,name=experiment_passed,json=experimentPassed,proto3" json:"experiment_passed,omitempty"`
+	ExperimentGrahp        []*ExperimentGrahp        `protobuf:"bytes,7,rep,name=experiment_grahp,json=experimentGrahp,proto3" json:"experiment_grahp,omitempty"`
+	ExperimentAssotiations []*ExperimentAssociations `protobuf:"bytes,8,rep,name=experiment_assotiations,json=experimentAssotiations,proto3" json:"experiment_assotiations,omitempty"`
+	Status                 ExperimentStatus          `protobuf:"varint,9,opt,name=status,proto3,enum=user.api.ExperimentStatus" json:"status,omitempty"`
+	ExperimentPassed       bool                      `protobuf:"varint,10,opt,name=experiment_passed,json=experimentPassed,proto3" json:"experiment_passed,omitempty"`
+	Nodes                  []string                  `protobuf:"bytes,11,rep,name=nodes,proto3" json:"nodes,omitempty"`
 }
 
 func (x *GetExperimentResponse) Reset() {
@@ -593,6 +595,13 @@ func (x *GetExperimentResponse) GetConductedExperiments() int64 {
 	return 0
 }
 
+func (x *GetExperimentResponse) GetExperimentGrahp() []*ExperimentGrahp {
+	if x != nil {
+		return x.ExperimentGrahp
+	}
+	return nil
+}
+
 func (x *GetExperimentResponse) GetExperimentAssotiations() []*ExperimentAssociations {
 	if x != nil {
 		return x.ExperimentAssotiations
@@ -614,20 +623,92 @@ func (x *GetExperimentResponse) GetExperimentPassed() bool {
 	return false
 }
 
+func (x *GetExperimentResponse) GetNodes() []string {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+type ExperimentGrahp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StimusWord      string `protobuf:"bytes,1,opt,name=stimus_word,json=stimusWord,proto3" json:"stimus_word,omitempty"`
+	AssotiationWord string `protobuf:"bytes,2,opt,name=assotiation_word,json=assotiationWord,proto3" json:"assotiation_word,omitempty"`
+	Amount          int64  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`
+}
+
+func (x *ExperimentGrahp) Reset() {
+	*x = ExperimentGrahp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExperimentGrahp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExperimentGrahp) ProtoMessage() {}
+
+func (x *ExperimentGrahp) ProtoReflect() protoreflect.Message {
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExperimentGrahp.ProtoReflect.Descriptor instead.
+func (*ExperimentGrahp) Descriptor() ([]byte, []int) {
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ExperimentGrahp) GetStimusWord() string {
+	if x != nil {
+		return x.StimusWord
+	}
+	return ""
+}
+
+func (x *ExperimentGrahp) GetAssotiationWord() string {
+	if x != nil {
+		return x.AssotiationWord
+	}
+	return ""
+}
+
+func (x *ExperimentGrahp) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
 type ExperimentAssociations struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StimusWordId    int64  `protobuf:"varint,1,opt,name=stimus_word_id,json=stimusWordId,proto3" json:"stimus_word_id,omitempty"`
-	AssotiationWord string `protobuf:"bytes,2,opt,name=assotiation_word,json=assotiationWord,proto3" json:"assotiation_word,omitempty"`
-	TimeSpend       int64  `protobuf:"varint,3,opt,name=time_spend,json=timeSpend,proto3" json:"time_spend,omitempty"`
+	StimusWordId      int64  `protobuf:"varint,1,opt,name=stimus_word_id,json=stimusWordId,proto3" json:"stimus_word_id,omitempty"`
+	StimusWord        string `protobuf:"bytes,2,opt,name=stimus_word,json=stimusWord,proto3" json:"stimus_word,omitempty"`
+	AssotiationWordId int64  `protobuf:"varint,3,opt,name=assotiation_word_id,json=assotiationWordId,proto3" json:"assotiation_word_id,omitempty"`
+	AssotiationWord   string `protobuf:"bytes,4,opt,name=assotiation_word,json=assotiationWord,proto3" json:"assotiation_word,omitempty"`
+	TimeSpend         int64  `protobuf:"varint,5,opt,name=time_spend,json=timeSpend,proto3" json:"time_spend,omitempty"`
 }
 
 func (x *ExperimentAssociations) Reset() {
 	*x = ExperimentAssociations{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[9]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -640,7 +721,7 @@ func (x *ExperimentAssociations) String() string {
 func (*ExperimentAssociations) ProtoMessage() {}
 
 func (x *ExperimentAssociations) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[9]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -653,12 +734,26 @@ func (x *ExperimentAssociations) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExperimentAssociations.ProtoReflect.Descriptor instead.
 func (*ExperimentAssociations) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{9}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ExperimentAssociations) GetStimusWordId() int64 {
 	if x != nil {
 		return x.StimusWordId
+	}
+	return 0
+}
+
+func (x *ExperimentAssociations) GetStimusWord() string {
+	if x != nil {
+		return x.StimusWord
+	}
+	return ""
+}
+
+func (x *ExperimentAssociations) GetAssotiationWordId() int64 {
+	if x != nil {
+		return x.AssotiationWordId
 	}
 	return 0
 }
@@ -691,7 +786,7 @@ type CreateExperimentRequest struct {
 func (x *CreateExperimentRequest) Reset() {
 	*x = CreateExperimentRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[10]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -704,7 +799,7 @@ func (x *CreateExperimentRequest) String() string {
 func (*CreateExperimentRequest) ProtoMessage() {}
 
 func (x *CreateExperimentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[10]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -717,7 +812,7 @@ func (x *CreateExperimentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateExperimentRequest.ProtoReflect.Descriptor instead.
 func (*CreateExperimentRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{10}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *CreateExperimentRequest) GetName() string {
@@ -761,7 +856,7 @@ type ExperimentStimuses struct {
 func (x *ExperimentStimuses) Reset() {
 	*x = ExperimentStimuses{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[11]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -774,7 +869,7 @@ func (x *ExperimentStimuses) String() string {
 func (*ExperimentStimuses) ProtoMessage() {}
 
 func (x *ExperimentStimuses) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[11]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -787,7 +882,7 @@ func (x *ExperimentStimuses) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExperimentStimuses.ProtoReflect.Descriptor instead.
 func (*ExperimentStimuses) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{11}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ExperimentStimuses) GetId() *wrapperspb.Int64Value {
@@ -822,7 +917,7 @@ type CreateExperimentResponse struct {
 func (x *CreateExperimentResponse) Reset() {
 	*x = CreateExperimentResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[12]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -835,7 +930,7 @@ func (x *CreateExperimentResponse) String() string {
 func (*CreateExperimentResponse) ProtoMessage() {}
 
 func (x *CreateExperimentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[12]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -848,7 +943,7 @@ func (x *CreateExperimentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateExperimentResponse.ProtoReflect.Descriptor instead.
 func (*CreateExperimentResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{12}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *CreateExperimentResponse) GetId() int64 {
@@ -869,7 +964,7 @@ type GetUserRequest struct {
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[13]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -882,7 +977,7 @@ func (x *GetUserRequest) String() string {
 func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[13]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -895,7 +990,7 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{13}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetUserRequest) GetId() int64 {
@@ -918,7 +1013,7 @@ type UpdateRoleRequest struct {
 func (x *UpdateRoleRequest) Reset() {
 	*x = UpdateRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[14]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -931,7 +1026,7 @@ func (x *UpdateRoleRequest) String() string {
 func (*UpdateRoleRequest) ProtoMessage() {}
 
 func (x *UpdateRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[14]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -944,7 +1039,7 @@ func (x *UpdateRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleRequest.ProtoReflect.Descriptor instead.
 func (*UpdateRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{14}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *UpdateRoleRequest) GetId() int64 {
@@ -981,7 +1076,7 @@ type UpdateRoleResponse struct {
 func (x *UpdateRoleResponse) Reset() {
 	*x = UpdateRoleResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[15]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -994,7 +1089,7 @@ func (x *UpdateRoleResponse) String() string {
 func (*UpdateRoleResponse) ProtoMessage() {}
 
 func (x *UpdateRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[15]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1007,7 +1102,7 @@ func (x *UpdateRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateRoleResponse.ProtoReflect.Descriptor instead.
 func (*UpdateRoleResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{15}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UpdateRoleResponse) GetId() int64 {
@@ -1042,7 +1137,7 @@ type ListUserRolesResponse struct {
 func (x *ListUserRolesResponse) Reset() {
 	*x = ListUserRolesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[16]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1055,7 +1150,7 @@ func (x *ListUserRolesResponse) String() string {
 func (*ListUserRolesResponse) ProtoMessage() {}
 
 func (x *ListUserRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[16]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1068,7 +1163,7 @@ func (x *ListUserRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserRolesResponse.ProtoReflect.Descriptor instead.
 func (*ListUserRolesResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{16}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ListUserRolesResponse) GetUserRoles() []string {
@@ -1089,7 +1184,7 @@ type ListUserRolesRequest struct {
 func (x *ListUserRolesRequest) Reset() {
 	*x = ListUserRolesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[17]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1102,7 +1197,7 @@ func (x *ListUserRolesRequest) String() string {
 func (*ListUserRolesRequest) ProtoMessage() {}
 
 func (x *ListUserRolesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[17]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1115,7 +1210,7 @@ func (x *ListUserRolesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserRolesRequest.ProtoReflect.Descriptor instead.
 func (*ListUserRolesRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{17}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *ListUserRolesRequest) GetUserId() int64 {
@@ -1136,7 +1231,7 @@ type DeleteUserRoleRequest struct {
 func (x *DeleteUserRoleRequest) Reset() {
 	*x = DeleteUserRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[18]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1149,7 +1244,7 @@ func (x *DeleteUserRoleRequest) String() string {
 func (*DeleteUserRoleRequest) ProtoMessage() {}
 
 func (x *DeleteUserRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[18]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1162,7 +1257,7 @@ func (x *DeleteUserRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRoleRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{18}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *DeleteUserRoleRequest) GetId() int64 {
@@ -1183,7 +1278,7 @@ type GetUserRoleRequest struct {
 func (x *GetUserRoleRequest) Reset() {
 	*x = GetUserRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[19]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1196,7 +1291,7 @@ func (x *GetUserRoleRequest) String() string {
 func (*GetUserRoleRequest) ProtoMessage() {}
 
 func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[19]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1209,7 +1304,7 @@ func (x *GetUserRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRoleRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{19}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetUserRoleRequest) GetId() int64 {
@@ -1232,7 +1327,7 @@ type GetUserRoleResponse struct {
 func (x *GetUserRoleResponse) Reset() {
 	*x = GetUserRoleResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[20]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1245,7 +1340,7 @@ func (x *GetUserRoleResponse) String() string {
 func (*GetUserRoleResponse) ProtoMessage() {}
 
 func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[20]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1258,7 +1353,7 @@ func (x *GetUserRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRoleResponse.ProtoReflect.Descriptor instead.
 func (*GetUserRoleResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{20}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetUserRoleResponse) GetId() int64 {
@@ -1295,7 +1390,7 @@ type CreateUserRoleResponse struct {
 func (x *CreateUserRoleResponse) Reset() {
 	*x = CreateUserRoleResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[21]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1308,7 +1403,7 @@ func (x *CreateUserRoleResponse) String() string {
 func (*CreateUserRoleResponse) ProtoMessage() {}
 
 func (x *CreateUserRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[21]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1321,7 +1416,7 @@ func (x *CreateUserRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserRoleResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{21}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *CreateUserRoleResponse) GetId() int64 {
@@ -1357,7 +1452,7 @@ type CreateUserRoleRequest struct {
 func (x *CreateUserRoleRequest) Reset() {
 	*x = CreateUserRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[22]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1370,7 +1465,7 @@ func (x *CreateUserRoleRequest) String() string {
 func (*CreateUserRoleRequest) ProtoMessage() {}
 
 func (x *CreateUserRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[22]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1383,7 +1478,7 @@ func (x *CreateUserRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{22}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *CreateUserRoleRequest) GetUserId() int64 {
@@ -1411,7 +1506,7 @@ type DeleteRoleRequest struct {
 func (x *DeleteRoleRequest) Reset() {
 	*x = DeleteRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[23]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1424,7 +1519,7 @@ func (x *DeleteRoleRequest) String() string {
 func (*DeleteRoleRequest) ProtoMessage() {}
 
 func (x *DeleteRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[23]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1437,7 +1532,7 @@ func (x *DeleteRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteRoleRequest.ProtoReflect.Descriptor instead.
 func (*DeleteRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{23}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DeleteRoleRequest) GetId() int64 {
@@ -1459,7 +1554,7 @@ type CreateRoleRequest struct {
 func (x *CreateRoleRequest) Reset() {
 	*x = CreateRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[24]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1472,7 +1567,7 @@ func (x *CreateRoleRequest) String() string {
 func (*CreateRoleRequest) ProtoMessage() {}
 
 func (x *CreateRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[24]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1485,7 +1580,7 @@ func (x *CreateRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleRequest.ProtoReflect.Descriptor instead.
 func (*CreateRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{24}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *CreateRoleRequest) GetName() string {
@@ -1515,7 +1610,7 @@ type CreateRoleResponse struct {
 func (x *CreateRoleResponse) Reset() {
 	*x = CreateRoleResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[25]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1528,7 +1623,7 @@ func (x *CreateRoleResponse) String() string {
 func (*CreateRoleResponse) ProtoMessage() {}
 
 func (x *CreateRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[25]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1541,7 +1636,7 @@ func (x *CreateRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateRoleResponse.ProtoReflect.Descriptor instead.
 func (*CreateRoleResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{25}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *CreateRoleResponse) GetId() int64 {
@@ -1576,7 +1671,7 @@ type GetRoleRequest struct {
 func (x *GetRoleRequest) Reset() {
 	*x = GetRoleRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[26]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1589,7 +1684,7 @@ func (x *GetRoleRequest) String() string {
 func (*GetRoleRequest) ProtoMessage() {}
 
 func (x *GetRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[26]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1602,7 +1697,7 @@ func (x *GetRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleRequest.ProtoReflect.Descriptor instead.
 func (*GetRoleRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{26}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetRoleRequest) GetId() int64 {
@@ -1625,7 +1720,7 @@ type GetRoleResponse struct {
 func (x *GetRoleResponse) Reset() {
 	*x = GetRoleResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[27]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1638,7 +1733,7 @@ func (x *GetRoleResponse) String() string {
 func (*GetRoleResponse) ProtoMessage() {}
 
 func (x *GetRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[27]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1651,7 +1746,7 @@ func (x *GetRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRoleResponse.ProtoReflect.Descriptor instead.
 func (*GetRoleResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{27}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *GetRoleResponse) GetId() int64 {
@@ -1686,7 +1781,7 @@ type ListRolesResponse struct {
 func (x *ListRolesResponse) Reset() {
 	*x = ListRolesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[28]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1699,7 +1794,7 @@ func (x *ListRolesResponse) String() string {
 func (*ListRolesResponse) ProtoMessage() {}
 
 func (x *ListRolesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[28]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1712,7 +1807,7 @@ func (x *ListRolesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListRolesResponse.ProtoReflect.Descriptor instead.
 func (*ListRolesResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{28}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ListRolesResponse) GetRoles() []*GetRoleResponse {
@@ -1734,7 +1829,7 @@ type LoginRequest struct {
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[29]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1747,7 +1842,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[29]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1760,7 +1855,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{29}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *LoginRequest) GetEmail() string {
@@ -1793,7 +1888,7 @@ type CreateUserRequest struct {
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[30]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1806,7 +1901,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[30]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1819,7 +1914,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{30}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *CreateUserRequest) GetName() string {
@@ -1875,7 +1970,7 @@ type ListUsersResponse struct {
 func (x *ListUsersResponse) Reset() {
 	*x = ListUsersResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[31]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1888,7 +1983,7 @@ func (x *ListUsersResponse) String() string {
 func (*ListUsersResponse) ProtoMessage() {}
 
 func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[31]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1901,7 +1996,7 @@ func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUsersResponse.ProtoReflect.Descriptor instead.
 func (*ListUsersResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{31}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListUsersResponse) GetUsers() []*CreateUserResponse {
@@ -1928,7 +2023,7 @@ type GetUserResponse struct {
 func (x *GetUserResponse) Reset() {
 	*x = GetUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[32]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1941,7 +2036,7 @@ func (x *GetUserResponse) String() string {
 func (*GetUserResponse) ProtoMessage() {}
 
 func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[32]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1954,7 +2049,7 @@ func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
 func (*GetUserResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{32}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetUserResponse) GetId() int64 {
@@ -2022,7 +2117,7 @@ type CreateUserResponse struct {
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[33]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[34]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2035,7 +2130,7 @@ func (x *CreateUserResponse) String() string {
 func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[33]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[34]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2048,7 +2143,7 @@ func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{33}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *CreateUserResponse) GetId() int64 {
@@ -2112,7 +2207,7 @@ type LoginResponse struct {
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[34]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[35]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2125,7 +2220,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[34]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[35]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2138,7 +2233,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{34}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *LoginResponse) GetId() int64 {
@@ -2216,7 +2311,7 @@ type Page struct {
 func (x *Page) Reset() {
 	*x = Page{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[35]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2229,7 +2324,7 @@ func (x *Page) String() string {
 func (*Page) ProtoMessage() {}
 
 func (x *Page) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[35]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2242,7 +2337,7 @@ func (x *Page) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Page.ProtoReflect.Descriptor instead.
 func (*Page) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{35}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *Page) GetNumber() int64 {
@@ -2271,7 +2366,7 @@ type GetUserResponse_UserRoles struct {
 func (x *GetUserResponse_UserRoles) Reset() {
 	*x = GetUserResponse_UserRoles{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_api_associate_v1_associate_api_proto_msgTypes[36]
+		mi := &file_api_associate_v1_associate_api_proto_msgTypes[37]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2284,7 +2379,7 @@ func (x *GetUserResponse_UserRoles) String() string {
 func (*GetUserResponse_UserRoles) ProtoMessage() {}
 
 func (x *GetUserResponse_UserRoles) ProtoReflect() protoreflect.Message {
-	mi := &file_api_associate_v1_associate_api_proto_msgTypes[36]
+	mi := &file_api_associate_v1_associate_api_proto_msgTypes[37]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2297,7 +2392,7 @@ func (x *GetUserResponse_UserRoles) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserResponse_UserRoles.ProtoReflect.Descriptor instead.
 func (*GetUserResponse_UserRoles) Descriptor() ([]byte, []int) {
-	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{32, 0}
+	return file_api_associate_v1_associate_api_proto_rawDescGZIP(), []int{33, 0}
 }
 
 func (x *GetUserResponse_UserRoles) GetUserRoleId() int64 {
@@ -2341,79 +2436,97 @@ var file_api_associate_v1_associate_api_proto_rawDesc = []byte{
 	0x69, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x75,
 	0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x45, 0x78, 0x70, 0x65, 0x72,
 	0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0b, 0x65,
-	0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22, 0xb5, 0x01, 0x0a, 0x1d, 0x43,
+	0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22, 0xb1, 0x01, 0x0a, 0x1d, 0x43,
 	0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52,
 	0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23, 0x0a, 0x0d,
 	0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x03, 0x52, 0x0c, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x49,
 	0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x73,
-	0x5f, 0x61, 0x6e, 0x6f, 0x6e, 0x79, 0x6d, 0x6f, 0x75, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08,
-	0x52, 0x0b, 0x69, 0x73, 0x41, 0x6e, 0x6f, 0x6e, 0x79, 0x6d, 0x6f, 0x75, 0x73, 0x12, 0x33, 0x0a,
-	0x07, 0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19,
-	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69,
-	0x6d, 0x65, 0x6e, 0x74, 0x57, 0x6f, 0x72, 0x64, 0x73, 0x52, 0x07, 0x61, 0x6e, 0x73, 0x77, 0x65,
-	0x72, 0x73, 0x22, 0x20, 0x0a, 0x1e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x78, 0x70, 0x65,
-	0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x81, 0x01, 0x0a, 0x0f, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d,
-	0x65, 0x6e, 0x74, 0x57, 0x6f, 0x72, 0x64, 0x73, 0x12, 0x24, 0x0a, 0x0e, 0x73, 0x74, 0x69, 0x6d,
-	0x75, 0x73, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
-	0x52, 0x0c, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x49, 0x64, 0x12, 0x29,
-	0x0a, 0x10, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x6f,
-	0x72, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x69, 0x6d,
-	0x65, 0x5f, 0x73, 0x70, 0x65, 0x6e, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x74,
-	0x69, 0x6d, 0x65, 0x53, 0x70, 0x65, 0x6e, 0x64, 0x22, 0x45, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74,
-	0x53, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x05, 0x77, 0x6f, 0x72, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x74,
-	0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x52, 0x05, 0x77, 0x6f, 0x72, 0x64, 0x73, 0x22,
-	0x30, 0x0a, 0x0a, 0x53, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x0e, 0x0a,
-	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a,
-	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x22, 0x26, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
-	0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x22, 0x84, 0x04, 0x0a, 0x15, 0x47, 0x65,
-	0x74, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
-	0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x3e, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72,
-	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63,
-	0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x46, 0x0a, 0x10, 0x72, 0x65, 0x71, 0x75, 0x65,
-	0x69, 0x72, 0x65, 0x64, 0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x36, 0x34, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0f,
-	0x72, 0x65, 0x71, 0x75, 0x65, 0x69, 0x72, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12,
-	0x4d, 0x0a, 0x13, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74,
-	0x69, 0x6d, 0x75, 0x73, 0x65, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x75,
-	0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
-	0x6e, 0x74, 0x53, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x65, 0x73, 0x52, 0x12, 0x65, 0x78, 0x70, 0x65,
-	0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x65, 0x73, 0x12, 0x33,
-	0x0a, 0x15, 0x63, 0x6f, 0x6e, 0x64, 0x75, 0x63, 0x74, 0x65, 0x64, 0x5f, 0x65, 0x78, 0x70, 0x65,
-	0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x14, 0x63,
-	0x6f, 0x6e, 0x64, 0x75, 0x63, 0x74, 0x65, 0x64, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
-	0x6e, 0x74, 0x73, 0x12, 0x59, 0x0a, 0x17, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e,
-	0x74, 0x5f, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x07,
-	0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x16, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
-	0x6e, 0x74, 0x41, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x33,
-	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1b,
-	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69,
-	0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x12, 0x2b, 0x0a, 0x11, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e,
-	0x74, 0x5f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x64, 0x18, 0x09, 0x20, 0x01, 0x28, 0x08, 0x52, 0x10,
-	0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x61, 0x73, 0x73, 0x65, 0x64,
-	0x22, 0x88, 0x01, 0x0a, 0x16, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x41,
-	0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x24, 0x0a, 0x0e, 0x73,
-	0x74, 0x69, 0x6d, 0x75, 0x73, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x03, 0x52, 0x0c, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x49,
+	0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x65,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09,
+	0x73, 0x65, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x33, 0x0a, 0x07, 0x61, 0x6e, 0x73,
+	0x77, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x75, 0x73, 0x65,
+	0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74,
+	0x57, 0x6f, 0x72, 0x64, 0x73, 0x52, 0x07, 0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x73, 0x22, 0x20,
+	0x0a, 0x1e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
+	0x6e, 0x74, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x81, 0x01, 0x0a, 0x0f, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x57,
+	0x6f, 0x72, 0x64, 0x73, 0x12, 0x24, 0x0a, 0x0e, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x5f, 0x77,
+	0x6f, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x73, 0x74,
+	0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x49, 0x64, 0x12, 0x29, 0x0a, 0x10, 0x61, 0x73,
+	0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x69, 0x6d, 0x65, 0x5f, 0x73, 0x70,
+	0x65, 0x6e, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x53,
+	0x70, 0x65, 0x6e, 0x64, 0x22, 0x45, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x74, 0x69, 0x6d,
+	0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x2a, 0x0a, 0x05, 0x77, 0x6f, 0x72, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14,
+	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x74, 0x69, 0x6d, 0x75, 0x73,
+	0x57, 0x6f, 0x72, 0x64, 0x52, 0x05, 0x77, 0x6f, 0x72, 0x64, 0x73, 0x22, 0x30, 0x0a, 0x0a, 0x53,
+	0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x26, 0x0a,
+	0x14, 0x47, 0x65, 0x74, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x02, 0x69, 0x64, 0x22, 0xe0, 0x04, 0x0a, 0x15, 0x47, 0x65, 0x74, 0x45, 0x78, 0x70,
+	0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12,
+	0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x3e, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e,
+	0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74,
+	0x69, 0x6f, 0x6e, 0x12, 0x46, 0x0a, 0x10, 0x72, 0x65, 0x71, 0x75, 0x65, 0x69, 0x72, 0x65, 0x64,
+	0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x49, 0x6e, 0x74, 0x36, 0x34, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0f, 0x72, 0x65, 0x71, 0x75,
+	0x65, 0x69, 0x72, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x4d, 0x0a, 0x13, 0x65,
+	0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73,
+	0x65, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x74,
+	0x69, 0x6d, 0x75, 0x73, 0x65, 0x73, 0x52, 0x12, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
+	0x6e, 0x74, 0x53, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x65, 0x73, 0x12, 0x33, 0x0a, 0x15, 0x63, 0x6f,
+	0x6e, 0x64, 0x75, 0x63, 0x74, 0x65, 0x64, 0x5f, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65,
+	0x6e, 0x74, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x14, 0x63, 0x6f, 0x6e, 0x64, 0x75,
+	0x63, 0x74, 0x65, 0x64, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12,
+	0x44, 0x0a, 0x10, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x67, 0x72,
+	0x61, 0x68, 0x70, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x75, 0x73, 0x65, 0x72,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x47,
+	0x72, 0x61, 0x68, 0x70, 0x52, 0x0f, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74,
+	0x47, 0x72, 0x61, 0x68, 0x70, 0x12, 0x59, 0x0a, 0x17, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d,
+	0x65, 0x6e, 0x74, 0x5f, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x41, 0x73, 0x73, 0x6f,
+	0x63, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x16, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69,
+	0x6d, 0x65, 0x6e, 0x74, 0x41, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x12, 0x33, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0e,
+	0x32, 0x1b, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x45, 0x78, 0x70, 0x65,
+	0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x06, 0x73,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x2b, 0x0a, 0x11, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d,
+	0x65, 0x6e, 0x74, 0x5f, 0x70, 0x61, 0x73, 0x73, 0x65, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x10, 0x65, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x61, 0x73, 0x73,
+	0x65, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x05, 0x6e, 0x6f, 0x64, 0x65, 0x73, 0x22, 0x75, 0x0a, 0x0f, 0x45, 0x78, 0x70, 0x65,
+	0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x47, 0x72, 0x61, 0x68, 0x70, 0x12, 0x1f, 0x0a, 0x0b, 0x73,
+	0x74, 0x69, 0x6d, 0x75, 0x73, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x29, 0x0a, 0x10,
+	0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x77, 0x6f, 0x72, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x22,
+	0xd9, 0x01, 0x0a, 0x16, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74, 0x41, 0x73,
+	0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x24, 0x0a, 0x0e, 0x73, 0x74,
+	0x69, 0x6d, 0x75, 0x73, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x0c, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72, 0x64, 0x49, 0x64,
+	0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x74, 0x69, 0x6d, 0x75, 0x73, 0x57, 0x6f, 0x72,
+	0x64, 0x12, 0x2e, 0x0a, 0x13, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x11,
+	0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x6f, 0x72, 0x64, 0x49,
 	0x64, 0x12, 0x29, 0x0a, 0x10, 0x61, 0x73, 0x73, 0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x5f, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73,
+	0x5f, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73,
 	0x6f, 0x74, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x6f, 0x72, 0x64, 0x12, 0x1d, 0x0a, 0x0a,
-	0x74, 0x69, 0x6d, 0x65, 0x5f, 0x73, 0x70, 0x65, 0x6e, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03,
+	0x74, 0x69, 0x6d, 0x65, 0x5f, 0x73, 0x70, 0x65, 0x6e, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x03,
 	0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x53, 0x70, 0x65, 0x6e, 0x64, 0x22, 0x84, 0x02, 0x0a, 0x17,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x78, 0x70, 0x65, 0x72, 0x69, 0x6d, 0x65, 0x6e, 0x74,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
@@ -2728,7 +2841,7 @@ func file_api_associate_v1_associate_api_proto_rawDescGZIP() []byte {
 }
 
 var file_api_associate_v1_associate_api_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_api_associate_v1_associate_api_proto_msgTypes = make([]protoimpl.MessageInfo, 37)
+var file_api_associate_v1_associate_api_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_api_associate_v1_associate_api_proto_goTypes = []interface{}{
 	(ExperimentStatus)(0),                  // 0: user.api.Experiment_status
 	(*ListExperimentRequest)(nil),          // 1: user.api.ListExperimentRequest
@@ -2740,101 +2853,103 @@ var file_api_associate_v1_associate_api_proto_goTypes = []interface{}{
 	(*StimusWord)(nil),                     // 7: user.api.StimusWord
 	(*GetExperimentRequest)(nil),           // 8: user.api.GetExperimentRequest
 	(*GetExperimentResponse)(nil),          // 9: user.api.GetExperimentResponse
-	(*ExperimentAssociations)(nil),         // 10: user.api.ExperimentAssociations
-	(*CreateExperimentRequest)(nil),        // 11: user.api.CreateExperimentRequest
-	(*ExperimentStimuses)(nil),             // 12: user.api.ExperimentStimuses
-	(*CreateExperimentResponse)(nil),       // 13: user.api.CreateExperimentResponse
-	(*GetUserRequest)(nil),                 // 14: user.api.GetUserRequest
-	(*UpdateRoleRequest)(nil),              // 15: user.api.UpdateRoleRequest
-	(*UpdateRoleResponse)(nil),             // 16: user.api.UpdateRoleResponse
-	(*ListUserRolesResponse)(nil),          // 17: user.api.ListUserRolesResponse
-	(*ListUserRolesRequest)(nil),           // 18: user.api.ListUserRolesRequest
-	(*DeleteUserRoleRequest)(nil),          // 19: user.api.DeleteUserRoleRequest
-	(*GetUserRoleRequest)(nil),             // 20: user.api.GetUserRoleRequest
-	(*GetUserRoleResponse)(nil),            // 21: user.api.GetUserRoleResponse
-	(*CreateUserRoleResponse)(nil),         // 22: user.api.CreateUserRoleResponse
-	(*CreateUserRoleRequest)(nil),          // 23: user.api.CreateUserRoleRequest
-	(*DeleteRoleRequest)(nil),              // 24: user.api.DeleteRoleRequest
-	(*CreateRoleRequest)(nil),              // 25: user.api.CreateRoleRequest
-	(*CreateRoleResponse)(nil),             // 26: user.api.CreateRoleResponse
-	(*GetRoleRequest)(nil),                 // 27: user.api.GetRoleRequest
-	(*GetRoleResponse)(nil),                // 28: user.api.GetRoleResponse
-	(*ListRolesResponse)(nil),              // 29: user.api.ListRolesResponse
-	(*LoginRequest)(nil),                   // 30: user.api.LoginRequest
-	(*CreateUserRequest)(nil),              // 31: user.api.CreateUserRequest
-	(*ListUsersResponse)(nil),              // 32: user.api.ListUsersResponse
-	(*GetUserResponse)(nil),                // 33: user.api.GetUserResponse
-	(*CreateUserResponse)(nil),             // 34: user.api.CreateUserResponse
-	(*LoginResponse)(nil),                  // 35: user.api.LoginResponse
-	(*Page)(nil),                           // 36: user.api.Page
-	(*GetUserResponse_UserRoles)(nil),      // 37: user.api.GetUserResponse.UserRoles
-	(*wrapperspb.StringValue)(nil),         // 38: google.protobuf.StringValue
-	(*wrapperspb.Int64Value)(nil),          // 39: google.protobuf.Int64Value
-	(*emptypb.Empty)(nil),                  // 40: google.protobuf.Empty
+	(*ExperimentGrahp)(nil),                // 10: user.api.ExperimentGrahp
+	(*ExperimentAssociations)(nil),         // 11: user.api.ExperimentAssociations
+	(*CreateExperimentRequest)(nil),        // 12: user.api.CreateExperimentRequest
+	(*ExperimentStimuses)(nil),             // 13: user.api.ExperimentStimuses
+	(*CreateExperimentResponse)(nil),       // 14: user.api.CreateExperimentResponse
+	(*GetUserRequest)(nil),                 // 15: user.api.GetUserRequest
+	(*UpdateRoleRequest)(nil),              // 16: user.api.UpdateRoleRequest
+	(*UpdateRoleResponse)(nil),             // 17: user.api.UpdateRoleResponse
+	(*ListUserRolesResponse)(nil),          // 18: user.api.ListUserRolesResponse
+	(*ListUserRolesRequest)(nil),           // 19: user.api.ListUserRolesRequest
+	(*DeleteUserRoleRequest)(nil),          // 20: user.api.DeleteUserRoleRequest
+	(*GetUserRoleRequest)(nil),             // 21: user.api.GetUserRoleRequest
+	(*GetUserRoleResponse)(nil),            // 22: user.api.GetUserRoleResponse
+	(*CreateUserRoleResponse)(nil),         // 23: user.api.CreateUserRoleResponse
+	(*CreateUserRoleRequest)(nil),          // 24: user.api.CreateUserRoleRequest
+	(*DeleteRoleRequest)(nil),              // 25: user.api.DeleteRoleRequest
+	(*CreateRoleRequest)(nil),              // 26: user.api.CreateRoleRequest
+	(*CreateRoleResponse)(nil),             // 27: user.api.CreateRoleResponse
+	(*GetRoleRequest)(nil),                 // 28: user.api.GetRoleRequest
+	(*GetRoleResponse)(nil),                // 29: user.api.GetRoleResponse
+	(*ListRolesResponse)(nil),              // 30: user.api.ListRolesResponse
+	(*LoginRequest)(nil),                   // 31: user.api.LoginRequest
+	(*CreateUserRequest)(nil),              // 32: user.api.CreateUserRequest
+	(*ListUsersResponse)(nil),              // 33: user.api.ListUsersResponse
+	(*GetUserResponse)(nil),                // 34: user.api.GetUserResponse
+	(*CreateUserResponse)(nil),             // 35: user.api.CreateUserResponse
+	(*LoginResponse)(nil),                  // 36: user.api.LoginResponse
+	(*Page)(nil),                           // 37: user.api.Page
+	(*GetUserResponse_UserRoles)(nil),      // 38: user.api.GetUserResponse.UserRoles
+	(*wrapperspb.StringValue)(nil),         // 39: google.protobuf.StringValue
+	(*wrapperspb.Int64Value)(nil),          // 40: google.protobuf.Int64Value
+	(*emptypb.Empty)(nil),                  // 41: google.protobuf.Empty
 }
 var file_api_associate_v1_associate_api_proto_depIdxs = []int32{
-	36, // 0: user.api.ListExperimentRequest.page:type_name -> user.api.Page
+	37, // 0: user.api.ListExperimentRequest.page:type_name -> user.api.Page
 	9,  // 1: user.api.ListExperimentResponse.experiments:type_name -> user.api.GetExperimentResponse
 	5,  // 2: user.api.CreateExperimentResultRequest.answers:type_name -> user.api.ExperimentWords
 	7,  // 3: user.api.ListStimusWordsResponse.words:type_name -> user.api.StimusWord
-	38, // 4: user.api.GetExperimentResponse.description:type_name -> google.protobuf.StringValue
-	39, // 5: user.api.GetExperimentResponse.requeired_amount:type_name -> google.protobuf.Int64Value
-	12, // 6: user.api.GetExperimentResponse.experiment_stimuses:type_name -> user.api.ExperimentStimuses
-	10, // 7: user.api.GetExperimentResponse.experiment_assotiations:type_name -> user.api.ExperimentAssociations
-	0,  // 8: user.api.GetExperimentResponse.status:type_name -> user.api.Experiment_status
-	38, // 9: user.api.CreateExperimentRequest.description:type_name -> google.protobuf.StringValue
-	39, // 10: user.api.CreateExperimentRequest.requeired_amount:type_name -> google.protobuf.Int64Value
-	12, // 11: user.api.CreateExperimentRequest.experiment_stimuses:type_name -> user.api.ExperimentStimuses
-	39, // 12: user.api.ExperimentStimuses.id:type_name -> google.protobuf.Int64Value
-	38, // 13: user.api.ExperimentStimuses.name:type_name -> google.protobuf.StringValue
-	39, // 14: user.api.ExperimentStimuses.limited_response_time:type_name -> google.protobuf.Int64Value
-	28, // 15: user.api.ListRolesResponse.roles:type_name -> user.api.GetRoleResponse
-	34, // 16: user.api.ListUsersResponse.users:type_name -> user.api.CreateUserResponse
-	37, // 17: user.api.GetUserResponse.roles:type_name -> user.api.GetUserResponse.UserRoles
-	26, // 18: user.api.LoginResponse.roles:type_name -> user.api.CreateRoleResponse
-	40, // 19: user.api.associateApiService.ListStimusWords:input_type -> google.protobuf.Empty
-	11, // 20: user.api.associateApiService.CreateExperiment:input_type -> user.api.CreateExperimentRequest
-	3,  // 21: user.api.associateApiService.CreateExperimentResult:input_type -> user.api.CreateExperimentResultRequest
-	8,  // 22: user.api.associateApiService.GetExperiment:input_type -> user.api.GetExperimentRequest
-	1,  // 23: user.api.associateApiService.ListExperiment:input_type -> user.api.ListExperimentRequest
-	31, // 24: user.api.associateApiService.CreateUser:input_type -> user.api.CreateUserRequest
-	40, // 25: user.api.associateApiService.ListUsers:input_type -> google.protobuf.Empty
-	14, // 26: user.api.associateApiService.GetUser:input_type -> user.api.GetUserRequest
-	30, // 27: user.api.associateApiService.Login:input_type -> user.api.LoginRequest
-	40, // 28: user.api.associateApiService.Logout:input_type -> google.protobuf.Empty
-	25, // 29: user.api.associateApiService.CreateRole:input_type -> user.api.CreateRoleRequest
-	15, // 30: user.api.associateApiService.UpdateRole:input_type -> user.api.UpdateRoleRequest
-	24, // 31: user.api.associateApiService.DeleteRole:input_type -> user.api.DeleteRoleRequest
-	27, // 32: user.api.associateApiService.GetRole:input_type -> user.api.GetRoleRequest
-	40, // 33: user.api.associateApiService.ListRoles:input_type -> google.protobuf.Empty
-	23, // 34: user.api.associateApiService.CreateUserRole:input_type -> user.api.CreateUserRoleRequest
-	20, // 35: user.api.associateApiService.GetUserRole:input_type -> user.api.GetUserRoleRequest
-	19, // 36: user.api.associateApiService.DeleteUserRole:input_type -> user.api.DeleteUserRoleRequest
-	18, // 37: user.api.associateApiService.ListUserRoles:input_type -> user.api.ListUserRolesRequest
-	6,  // 38: user.api.associateApiService.ListStimusWords:output_type -> user.api.ListStimusWordsResponse
-	13, // 39: user.api.associateApiService.CreateExperiment:output_type -> user.api.CreateExperimentResponse
-	4,  // 40: user.api.associateApiService.CreateExperimentResult:output_type -> user.api.CreateExperimentResultResponse
-	9,  // 41: user.api.associateApiService.GetExperiment:output_type -> user.api.GetExperimentResponse
-	2,  // 42: user.api.associateApiService.ListExperiment:output_type -> user.api.ListExperimentResponse
-	34, // 43: user.api.associateApiService.CreateUser:output_type -> user.api.CreateUserResponse
-	32, // 44: user.api.associateApiService.ListUsers:output_type -> user.api.ListUsersResponse
-	33, // 45: user.api.associateApiService.GetUser:output_type -> user.api.GetUserResponse
-	35, // 46: user.api.associateApiService.Login:output_type -> user.api.LoginResponse
-	40, // 47: user.api.associateApiService.Logout:output_type -> google.protobuf.Empty
-	26, // 48: user.api.associateApiService.CreateRole:output_type -> user.api.CreateRoleResponse
-	16, // 49: user.api.associateApiService.UpdateRole:output_type -> user.api.UpdateRoleResponse
-	40, // 50: user.api.associateApiService.DeleteRole:output_type -> google.protobuf.Empty
-	28, // 51: user.api.associateApiService.GetRole:output_type -> user.api.GetRoleResponse
-	29, // 52: user.api.associateApiService.ListRoles:output_type -> user.api.ListRolesResponse
-	22, // 53: user.api.associateApiService.CreateUserRole:output_type -> user.api.CreateUserRoleResponse
-	21, // 54: user.api.associateApiService.GetUserRole:output_type -> user.api.GetUserRoleResponse
-	40, // 55: user.api.associateApiService.DeleteUserRole:output_type -> google.protobuf.Empty
-	17, // 56: user.api.associateApiService.ListUserRoles:output_type -> user.api.ListUserRolesResponse
-	38, // [38:57] is the sub-list for method output_type
-	19, // [19:38] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	39, // 4: user.api.GetExperimentResponse.description:type_name -> google.protobuf.StringValue
+	40, // 5: user.api.GetExperimentResponse.requeired_amount:type_name -> google.protobuf.Int64Value
+	13, // 6: user.api.GetExperimentResponse.experiment_stimuses:type_name -> user.api.ExperimentStimuses
+	10, // 7: user.api.GetExperimentResponse.experiment_grahp:type_name -> user.api.ExperimentGrahp
+	11, // 8: user.api.GetExperimentResponse.experiment_assotiations:type_name -> user.api.ExperimentAssociations
+	0,  // 9: user.api.GetExperimentResponse.status:type_name -> user.api.Experiment_status
+	39, // 10: user.api.CreateExperimentRequest.description:type_name -> google.protobuf.StringValue
+	40, // 11: user.api.CreateExperimentRequest.requeired_amount:type_name -> google.protobuf.Int64Value
+	13, // 12: user.api.CreateExperimentRequest.experiment_stimuses:type_name -> user.api.ExperimentStimuses
+	40, // 13: user.api.ExperimentStimuses.id:type_name -> google.protobuf.Int64Value
+	39, // 14: user.api.ExperimentStimuses.name:type_name -> google.protobuf.StringValue
+	40, // 15: user.api.ExperimentStimuses.limited_response_time:type_name -> google.protobuf.Int64Value
+	29, // 16: user.api.ListRolesResponse.roles:type_name -> user.api.GetRoleResponse
+	35, // 17: user.api.ListUsersResponse.users:type_name -> user.api.CreateUserResponse
+	38, // 18: user.api.GetUserResponse.roles:type_name -> user.api.GetUserResponse.UserRoles
+	27, // 19: user.api.LoginResponse.roles:type_name -> user.api.CreateRoleResponse
+	41, // 20: user.api.associateApiService.ListStimusWords:input_type -> google.protobuf.Empty
+	12, // 21: user.api.associateApiService.CreateExperiment:input_type -> user.api.CreateExperimentRequest
+	3,  // 22: user.api.associateApiService.CreateExperimentResult:input_type -> user.api.CreateExperimentResultRequest
+	8,  // 23: user.api.associateApiService.GetExperiment:input_type -> user.api.GetExperimentRequest
+	1,  // 24: user.api.associateApiService.ListExperiment:input_type -> user.api.ListExperimentRequest
+	32, // 25: user.api.associateApiService.CreateUser:input_type -> user.api.CreateUserRequest
+	41, // 26: user.api.associateApiService.ListUsers:input_type -> google.protobuf.Empty
+	15, // 27: user.api.associateApiService.GetUser:input_type -> user.api.GetUserRequest
+	31, // 28: user.api.associateApiService.Login:input_type -> user.api.LoginRequest
+	41, // 29: user.api.associateApiService.Logout:input_type -> google.protobuf.Empty
+	26, // 30: user.api.associateApiService.CreateRole:input_type -> user.api.CreateRoleRequest
+	16, // 31: user.api.associateApiService.UpdateRole:input_type -> user.api.UpdateRoleRequest
+	25, // 32: user.api.associateApiService.DeleteRole:input_type -> user.api.DeleteRoleRequest
+	28, // 33: user.api.associateApiService.GetRole:input_type -> user.api.GetRoleRequest
+	41, // 34: user.api.associateApiService.ListRoles:input_type -> google.protobuf.Empty
+	24, // 35: user.api.associateApiService.CreateUserRole:input_type -> user.api.CreateUserRoleRequest
+	21, // 36: user.api.associateApiService.GetUserRole:input_type -> user.api.GetUserRoleRequest
+	20, // 37: user.api.associateApiService.DeleteUserRole:input_type -> user.api.DeleteUserRoleRequest
+	19, // 38: user.api.associateApiService.ListUserRoles:input_type -> user.api.ListUserRolesRequest
+	6,  // 39: user.api.associateApiService.ListStimusWords:output_type -> user.api.ListStimusWordsResponse
+	14, // 40: user.api.associateApiService.CreateExperiment:output_type -> user.api.CreateExperimentResponse
+	4,  // 41: user.api.associateApiService.CreateExperimentResult:output_type -> user.api.CreateExperimentResultResponse
+	9,  // 42: user.api.associateApiService.GetExperiment:output_type -> user.api.GetExperimentResponse
+	2,  // 43: user.api.associateApiService.ListExperiment:output_type -> user.api.ListExperimentResponse
+	35, // 44: user.api.associateApiService.CreateUser:output_type -> user.api.CreateUserResponse
+	33, // 45: user.api.associateApiService.ListUsers:output_type -> user.api.ListUsersResponse
+	34, // 46: user.api.associateApiService.GetUser:output_type -> user.api.GetUserResponse
+	36, // 47: user.api.associateApiService.Login:output_type -> user.api.LoginResponse
+	41, // 48: user.api.associateApiService.Logout:output_type -> google.protobuf.Empty
+	27, // 49: user.api.associateApiService.CreateRole:output_type -> user.api.CreateRoleResponse
+	17, // 50: user.api.associateApiService.UpdateRole:output_type -> user.api.UpdateRoleResponse
+	41, // 51: user.api.associateApiService.DeleteRole:output_type -> google.protobuf.Empty
+	29, // 52: user.api.associateApiService.GetRole:output_type -> user.api.GetRoleResponse
+	30, // 53: user.api.associateApiService.ListRoles:output_type -> user.api.ListRolesResponse
+	23, // 54: user.api.associateApiService.CreateUserRole:output_type -> user.api.CreateUserRoleResponse
+	22, // 55: user.api.associateApiService.GetUserRole:output_type -> user.api.GetUserRoleResponse
+	41, // 56: user.api.associateApiService.DeleteUserRole:output_type -> google.protobuf.Empty
+	18, // 57: user.api.associateApiService.ListUserRoles:output_type -> user.api.ListUserRolesResponse
+	39, // [39:58] is the sub-list for method output_type
+	20, // [20:39] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_api_associate_v1_associate_api_proto_init() }
@@ -2952,7 +3067,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ExperimentAssociations); i {
+			switch v := v.(*ExperimentGrahp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2964,7 +3079,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateExperimentRequest); i {
+			switch v := v.(*ExperimentAssociations); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2976,7 +3091,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ExperimentStimuses); i {
+			switch v := v.(*CreateExperimentRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2988,7 +3103,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateExperimentResponse); i {
+			switch v := v.(*ExperimentStimuses); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3000,7 +3115,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserRequest); i {
+			switch v := v.(*CreateExperimentResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3012,7 +3127,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateRoleRequest); i {
+			switch v := v.(*GetUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3024,7 +3139,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateRoleResponse); i {
+			switch v := v.(*UpdateRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3036,7 +3151,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListUserRolesResponse); i {
+			switch v := v.(*UpdateRoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3048,7 +3163,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListUserRolesRequest); i {
+			switch v := v.(*ListUserRolesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3060,7 +3175,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUserRoleRequest); i {
+			switch v := v.(*ListUserRolesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3072,7 +3187,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserRoleRequest); i {
+			switch v := v.(*DeleteUserRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3084,7 +3199,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserRoleResponse); i {
+			switch v := v.(*GetUserRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3096,7 +3211,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserRoleResponse); i {
+			switch v := v.(*GetUserRoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3108,7 +3223,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserRoleRequest); i {
+			switch v := v.(*CreateUserRoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3120,7 +3235,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteRoleRequest); i {
+			switch v := v.(*CreateUserRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3132,7 +3247,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateRoleRequest); i {
+			switch v := v.(*DeleteRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3144,7 +3259,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateRoleResponse); i {
+			switch v := v.(*CreateRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3156,7 +3271,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRoleRequest); i {
+			switch v := v.(*CreateRoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3168,7 +3283,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetRoleResponse); i {
+			switch v := v.(*GetRoleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3180,7 +3295,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListRolesResponse); i {
+			switch v := v.(*GetRoleResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3192,7 +3307,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LoginRequest); i {
+			switch v := v.(*ListRolesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3204,7 +3319,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserRequest); i {
+			switch v := v.(*LoginRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3216,7 +3331,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListUsersResponse); i {
+			switch v := v.(*CreateUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3228,7 +3343,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserResponse); i {
+			switch v := v.(*ListUsersResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3240,7 +3355,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserResponse); i {
+			switch v := v.(*GetUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3252,7 +3367,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LoginResponse); i {
+			switch v := v.(*CreateUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3264,7 +3379,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Page); i {
+			switch v := v.(*LoginResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3276,6 +3391,18 @@ func file_api_associate_v1_associate_api_proto_init() {
 			}
 		}
 		file_api_associate_v1_associate_api_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Page); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_associate_v1_associate_api_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetUserResponse_UserRoles); i {
 			case 0:
 				return &v.state
@@ -3294,7 +3421,7 @@ func file_api_associate_v1_associate_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_associate_v1_associate_api_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   37,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

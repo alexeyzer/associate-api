@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -27,7 +26,7 @@ func (e *experimentService) ListExperiment(ctx context.Context, number, limit, u
 		return nil, err
 	}
 	if userID != 0 {
-		results, err := e.dao.ExperimentResultQuery().List(ctx, userID)
+		results, err := e.dao.ExperimentResultQuery().List(ctx, userID, []int64{})
 		if err != nil {
 			return nil, err
 		}
@@ -39,6 +38,7 @@ func (e *experimentService) ListExperiment(ctx context.Context, number, limit, u
 			}
 		}
 	}
+
 	return experiments, nil
 }
 
@@ -72,7 +72,6 @@ func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct
 
 	res, err := e.dao.ExperimentQuery().Create(ctx, req)
 	if err != nil {
-		fmt.Print("JERJEJRJERJJERJERJERJ")
 		return nil, err
 	}
 	return res, nil
@@ -83,6 +82,12 @@ func (e *experimentService) GetExperiment(ctx context.Context, id int64) (*datas
 	if err != nil {
 		return nil, err
 	}
+	results, err := e.dao.ExperimentResultQuery().List(ctx, 0, []int64{id})
+	if err != nil {
+		return nil, err
+	}
+	experiment.ExperimentReulsts = results
+
 	return experiment, nil
 }
 

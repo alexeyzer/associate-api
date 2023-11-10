@@ -7,7 +7,7 @@ CREATE TABLE experiment(
     name text not null,
     description text,
     creator_id bigint not null,
-    conducducted_amount no null bigint,
+    conducducted_amount bigint not null ,
     required_amount bigint,
     status experiment_status not null,
     experiment_stimuses jsonb not null

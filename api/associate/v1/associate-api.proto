@@ -144,7 +144,7 @@ import "google/protobuf/wrappers.proto";
  message CreateExperimentResultRequest {
   int64 experiment_id = 1;
   int64 user_id = 2;
-  bool is_anonymous  = 3;
+  int64 session_id  = 3;
   repeated ExperimentWords answers = 4;
  }
 
@@ -176,15 +176,25 @@ import "google/protobuf/wrappers.proto";
   google.protobuf.Int64Value requeired_amount = 4;
   repeated ExperimentStimuses experiment_stimuses = 5;
   int64 conducted_experiments = 6;
-  repeated ExperimentAssociations experiment_assotiations = 7;
-  Experiment_status status = 8;
-  bool experiment_passed = 9;
+  repeated ExperimentGrahp experiment_grahp = 7;
+  repeated ExperimentAssociations experiment_assotiations = 8;
+  Experiment_status status = 9;
+  bool experiment_passed = 10;
+  repeated string nodes = 11;
  }
+
+  message ExperimentGrahp {
+    string stimus_word = 1;
+    string assotiation_word = 2;
+    int64 amount = 3;
+  }
  
  message ExperimentAssociations {
     int64 stimus_word_id = 1;
-    string assotiation_word = 2;
-    int64 time_spend = 3;
+    string stimus_word = 2;
+    int64 assotiation_word_id = 3;
+    string assotiation_word = 4;
+    int64 time_spend = 5;
   }
 
  message CreateExperimentRequest {

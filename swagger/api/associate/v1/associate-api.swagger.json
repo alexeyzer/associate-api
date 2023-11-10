@@ -645,8 +645,9 @@
           "type": "string",
           "format": "int64"
         },
-        "isAnonymous": {
-          "type": "boolean"
+        "sessionId": {
+          "type": "string",
+          "format": "int64"
         },
         "answers": {
           "type": "array",
@@ -770,10 +771,32 @@
           "type": "string",
           "format": "int64"
         },
+        "stimusWord": {
+          "type": "string"
+        },
+        "assotiationWordId": {
+          "type": "string",
+          "format": "int64"
+        },
         "assotiationWord": {
           "type": "string"
         },
         "timeSpend": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "apiExperimentGrahp": {
+      "type": "object",
+      "properties": {
+        "stimusWord": {
+          "type": "string"
+        },
+        "assotiationWord": {
+          "type": "string"
+        },
+        "amount": {
           "type": "string",
           "format": "int64"
         }
@@ -851,6 +874,13 @@
           "type": "string",
           "format": "int64"
         },
+        "experimentGrahp": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiExperimentGrahp"
+          }
+        },
         "experimentAssotiations": {
           "type": "array",
           "items": {
@@ -863,6 +893,12 @@
         },
         "experimentPassed": {
           "type": "boolean"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
