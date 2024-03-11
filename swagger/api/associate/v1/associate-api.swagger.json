@@ -40,6 +40,30 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "experimentResultsPagination.number",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "experimentResultsPagination.limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
           }
         ],
         "tags": [
@@ -146,6 +170,12 @@
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

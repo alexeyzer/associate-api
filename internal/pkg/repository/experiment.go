@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
@@ -14,7 +15,7 @@ type ExperimentQuery interface {
 	Create(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
 	GetByID(ctx context.Context, ID int64) (*datastruct.Experiment, error)
 	Exists(ctx context.Context, name string) (bool, error)
-	List(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error)
+	List(ctx context.Context, number, limit, userID int64, userExperiments bool, name *string) ([]*datastruct.Experiment, error)
 }
 
 type experimentQuery struct {
@@ -22,7 +23,7 @@ type experimentQuery struct {
 	db      *sqlx.DB
 }
 
-func (q *experimentQuery) List(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error) {
+func (q *experimentQuery) List(ctx context.Context, number, limit, userID int64, userExperiments bool, name *string) ([]*datastruct.Experiment, error) {
 	qb := q.builder.
 		Select("*").
 		From(datastruct.ExperimentTableName)
@@ -37,10 +38,16 @@ func (q *experimentQuery) List(ctx context.Context, number, limit, userID int64,
 		qb = qb.Where(squirrel.Eq{"creator_id": userID})
 	}
 
+	if name != nil {
+		qb = qb.Where(squirrel.Like{"LOWER(name)": fmt.Sprintf("%%%s%%", strings.ToLower(*name))})
+	}
+
 	query, args, err := qb.ToSql()
 	if err != nil {
 		return nil, err
 	}
+
+	print(query, number, limit)
 
 	var experiments []*datastruct.Experiment
 

@@ -12,21 +12,21 @@ import (
 
 type ExperimentService interface {
 	CreateExperiment(ctx context.Context, req datastruct.Experiment) (*datastruct.Experiment, error)
-	GetExperiment(ctx context.Context, id int64) (*datastruct.Experiment, error)
-	ListExperiment(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error)
+	GetExperiment(ctx context.Context, id, number, limit int64, name []string) (*datastruct.Experiment, error)
+	ListExperiment(ctx context.Context, number, limit, userID int64, userExperiments bool, name *string) ([]*datastruct.Experiment, error)
 }
 
 type experimentService struct {
 	dao repository.DAO
 }
 
-func (e *experimentService) ListExperiment(ctx context.Context, number, limit, userID int64, userExperiments bool) ([]*datastruct.Experiment, error) {
-	experiments, err := e.dao.ExperimentQuery().List(ctx, number, limit, userID, userExperiments)
+func (e *experimentService) ListExperiment(ctx context.Context, number, limit, userID int64, userExperiments bool, name *string) ([]*datastruct.Experiment, error) {
+	experiments, err := e.dao.ExperimentQuery().List(ctx, number, limit, userID, userExperiments, name)
 	if err != nil {
 		return nil, err
 	}
 	if userID != 0 {
-		results, err := e.dao.ExperimentResultQuery().List(ctx, userID, []int64{})
+		results, err := e.dao.ExperimentResultQuery().List(ctx, userID, []int64{}, 0, 0, []string{})
 		if err != nil {
 			return nil, err
 		}
@@ -77,12 +77,12 @@ func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct
 	return res, nil
 }
 
-func (e *experimentService) GetExperiment(ctx context.Context, id int64) (*datastruct.Experiment, error) {
+func (e *experimentService) GetExperiment(ctx context.Context, id, number, limit int64, names []string) (*datastruct.Experiment, error) {
 	experiment, err := e.dao.ExperimentQuery().GetByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
-	results, err := e.dao.ExperimentResultQuery().List(ctx, 0, []int64{id})
+	results, err := e.dao.ExperimentResultQuery().List(ctx, 0, []int64{id}, number, limit, names)
 	if err != nil {
 		return nil, err
 	}

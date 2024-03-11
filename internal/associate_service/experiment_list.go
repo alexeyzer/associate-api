@@ -17,7 +17,14 @@ func (s *AssociateApiServiceServer) ListExperiment(ctx context.Context, req *des
 		userID = 0
 	}
 
-	res, err := s.experimentService.ListExperiment(ctx, req.GetPage().GetNumber(), req.GetPage().GetLimit(), userID, req.GetUserExperiments())
+	var name *string
+
+	if req.GetName() != nil && req.GetName().GetValue() != "" {
+		nameValue := req.GetName().GetValue()
+		name = &nameValue
+	}
+
+	res, err := s.experimentService.ListExperiment(ctx, req.GetPage().GetNumber(), req.GetPage().GetLimit(), userID, req.GetUserExperiments(), name)
 	if err != nil {
 		return nil, err
 	}

@@ -88,6 +88,35 @@ func (m *ListExperimentRequest) validate(all bool) error {
 
 	// no validation rules for UserExperiments
 
+	if all {
+		switch v := interface{}(m.GetName()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ListExperimentRequestValidationError{
+					field:  "Name",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ListExperimentRequestValidationError{
+					field:  "Name",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetName()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ListExperimentRequestValidationError{
+				field:  "Name",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return ListExperimentRequestMultiError(errors)
 	}
@@ -918,6 +947,35 @@ func (m *GetExperimentRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
+
+	if all {
+		switch v := interface{}(m.GetExperimentResultsPagination()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetExperimentRequestValidationError{
+					field:  "ExperimentResultsPagination",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetExperimentRequestValidationError{
+					field:  "ExperimentResultsPagination",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExperimentResultsPagination()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetExperimentRequestValidationError{
+				field:  "ExperimentResultsPagination",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	if len(errors) > 0 {
 		return GetExperimentRequestMultiError(errors)

@@ -135,6 +135,7 @@ import "google/protobuf/wrappers.proto";
  message ListExperimentRequest {
   Page page = 1;
   bool user_experiments = 2;
+   google.protobuf.StringValue name = 3;
  }
 
  message ListExperimentResponse {
@@ -167,6 +168,8 @@ import "google/protobuf/wrappers.proto";
 
  message GetExperimentRequest {
   int64 id = 1;
+  Page experiment_results_pagination = 2;
+  repeated string names = 4;
  }
 
  message GetExperimentResponse {

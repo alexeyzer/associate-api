@@ -14,7 +14,7 @@ func (s *AssociateApiServiceServer) GetExperiment(ctx context.Context, req *desc
 		return nil, err
 	}
 
-	res, err := s.experimentService.GetExperiment(ctx, req.GetId())
+	res, err := s.experimentService.GetExperiment(ctx, req.GetId(), req.GetExperimentResultsPagination().GetNumber(), req.GetExperimentResultsPagination().GetLimit(), req.GetNames())
 	if err != nil {
 		return nil, err
 	}
@@ -55,12 +55,12 @@ func BuildNodes(d []*datastruct.ExperimentResultList) []string {
 }
 
 func BuildGrahp(d []*datastruct.ExperimentResultList) []*desc.ExperimentGrahp {
-	grahp := make(map[string]map[string]int64, 0)
+	grahp := make(map[string]map[string]int64, len(d))
 
 	for _, r := range d {
 		_, ok := grahp[r.StimusWord]
 		if !ok {
-			grahp[r.StimusWord] = make(map[string]int64, 0)
+			grahp[r.StimusWord] = make(map[string]int64, 30)
 		}
 		grahp[r.StimusWord][r.AssotiationWord] = grahp[r.StimusWord][r.AssotiationWord] + 1
 	}
