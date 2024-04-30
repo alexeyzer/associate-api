@@ -37,7 +37,7 @@ func (q *experimentResultQuery) List(ctx context.Context, userID int64, experime
 
 	if len(names) > 0 {
 		for _, name := range names {
-			fmt.Print(name)
+			fmt.Println("WORLD", name)
 			qb = qb.Where(
 				squirrel.Or{
 					squirrel.Like{"LOWER(swt.name)": fmt.Sprintf("%%%s%%", strings.ToLower(name))},
@@ -50,7 +50,7 @@ func (q *experimentResultQuery) List(ctx context.Context, userID int64, experime
 		if err != nil {
 			return nil, err
 		}
-		fmt.Print(query)
+		fmt.Println(query, args)
 
 		var results []*datastruct.ExperimentResultList
 

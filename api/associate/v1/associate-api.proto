@@ -130,6 +130,41 @@ import "google/protobuf/wrappers.proto";
        get: "/v1/user-role/list"
      };
    };
+   rpc CalculateExperiment(CalculateExperimentRequest) returns (CalculateExperimentResponse) {
+    option (google.api.http) = {
+      get: "/v1/experiment/calculate"
+    };
+  };
+  rpc GetExperimentCalculated(GetExperimentCalculatedRequest) returns (GetExperimentCalculatedResponse) {
+    option (google.api.http) = {
+      get: "/v1/experimentCalculated/list"
+    };
+  };
+ }
+
+  message GetExperimentCalculatedRequest {
+    int64 id = 1;
+    Page experiment_results_pagination = 2;
+    repeated string names = 4;
+ }
+
+ message GetExperimentCalculatedResponse {
+  repeated ExperimentGrahp experiment_grahp = 1;
+  repeated node nodes = 2;
+ }
+
+ message node {
+  string name = 1;
+  int64 x = 2;
+  int64 y = 3;
+ }
+
+ message CalculateExperimentRequest{
+  int64 expriment_id = 1;
+ }
+
+ message CalculateExperimentResponse {
+
  }
 
  message ListExperimentRequest {

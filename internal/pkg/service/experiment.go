@@ -51,8 +51,13 @@ func (e *experimentService) CreateExperiment(ctx context.Context, req datastruct
 			}
 		}
 		if stimus.Name != "" {
+			res, err := e.dao.StimusWordQuery().GetByName(ctx, stimus.Name)
+			if err == nil {
+				stimus.StimusID = res.ID
+				continue
+			}
 
-			res, err := e.dao.StimusWordQuery().Create(ctx, datastruct.StimusWord{
+			res, err = e.dao.StimusWordQuery().Create(ctx, datastruct.StimusWord{
 				Name: stimus.Name,
 			})
 			if err != nil {

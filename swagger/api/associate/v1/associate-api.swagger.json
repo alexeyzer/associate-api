@@ -133,6 +133,37 @@
         ]
       }
     },
+    "/v1/experiment/calculate": {
+      "get": {
+        "operationId": "associateApiService_CalculateExperiment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCalculateExperimentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "exprimentId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
     "/v1/experiment/list": {
       "get": {
         "operationId": "associateApiService_ListExperiment",
@@ -176,6 +207,61 @@
             "in": "query",
             "required": false,
             "type": "string"
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
+    "/v1/experimentCalculated/list": {
+      "get": {
+        "operationId": "associateApiService_GetExperimentCalculated",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiGetExperimentCalculatedResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "experimentResultsPagination.number",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "experimentResultsPagination.limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
           }
         ],
         "tags": [
@@ -633,6 +719,9 @@
         }
       }
     },
+    "apiCalculateExperimentResponse": {
+      "type": "object"
+    },
     "apiCreateExperimentRequest": {
       "type": "object",
       "properties": {
@@ -875,6 +964,25 @@
         "DONE"
       ],
       "default": "UNKNOWN"
+    },
+    "apiGetExperimentCalculatedResponse": {
+      "type": "object",
+      "properties": {
+        "experimentGrahp": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiExperimentGrahp"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apinode"
+          }
+        }
+      }
     },
     "apiGetExperimentResponse": {
       "type": "object",
@@ -1154,6 +1262,22 @@
         },
         "description": {
           "type": "string"
+        }
+      }
+    },
+    "apinode": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "x": {
+          "type": "string",
+          "format": "int64"
+        },
+        "y": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

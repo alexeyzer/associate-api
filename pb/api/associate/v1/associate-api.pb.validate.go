@@ -35,6 +35,622 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on GetExperimentCalculatedRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetExperimentCalculatedRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetExperimentCalculatedRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetExperimentCalculatedRequestMultiError, or nil if none found.
+func (m *GetExperimentCalculatedRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetExperimentCalculatedRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	if all {
+		switch v := interface{}(m.GetExperimentResultsPagination()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GetExperimentCalculatedRequestValidationError{
+					field:  "ExperimentResultsPagination",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GetExperimentCalculatedRequestValidationError{
+					field:  "ExperimentResultsPagination",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExperimentResultsPagination()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GetExperimentCalculatedRequestValidationError{
+				field:  "ExperimentResultsPagination",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return GetExperimentCalculatedRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetExperimentCalculatedRequestMultiError is an error wrapping multiple
+// validation errors returned by GetExperimentCalculatedRequest.ValidateAll()
+// if the designated constraints aren't met.
+type GetExperimentCalculatedRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetExperimentCalculatedRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetExperimentCalculatedRequestMultiError) AllErrors() []error { return m }
+
+// GetExperimentCalculatedRequestValidationError is the validation error
+// returned by GetExperimentCalculatedRequest.Validate if the designated
+// constraints aren't met.
+type GetExperimentCalculatedRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetExperimentCalculatedRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetExperimentCalculatedRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetExperimentCalculatedRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetExperimentCalculatedRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetExperimentCalculatedRequestValidationError) ErrorName() string {
+	return "GetExperimentCalculatedRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetExperimentCalculatedRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetExperimentCalculatedRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetExperimentCalculatedRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetExperimentCalculatedRequestValidationError{}
+
+// Validate checks the field values on GetExperimentCalculatedResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GetExperimentCalculatedResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetExperimentCalculatedResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// GetExperimentCalculatedResponseMultiError, or nil if none found.
+func (m *GetExperimentCalculatedResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetExperimentCalculatedResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetExperimentGrahp() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentCalculatedResponseValidationError{
+					field:  fmt.Sprintf("ExperimentGrahp[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetNodes() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("Nodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("Nodes[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentCalculatedResponseValidationError{
+					field:  fmt.Sprintf("Nodes[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return GetExperimentCalculatedResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetExperimentCalculatedResponseMultiError is an error wrapping multiple
+// validation errors returned by GetExperimentCalculatedResponse.ValidateAll()
+// if the designated constraints aren't met.
+type GetExperimentCalculatedResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetExperimentCalculatedResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetExperimentCalculatedResponseMultiError) AllErrors() []error { return m }
+
+// GetExperimentCalculatedResponseValidationError is the validation error
+// returned by GetExperimentCalculatedResponse.Validate if the designated
+// constraints aren't met.
+type GetExperimentCalculatedResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetExperimentCalculatedResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetExperimentCalculatedResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetExperimentCalculatedResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetExperimentCalculatedResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetExperimentCalculatedResponseValidationError) ErrorName() string {
+	return "GetExperimentCalculatedResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GetExperimentCalculatedResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetExperimentCalculatedResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetExperimentCalculatedResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetExperimentCalculatedResponseValidationError{}
+
+// Validate checks the field values on Node with the rules defined in the proto
+// definition for this message. If any rules are violated, the first error
+// encountered is returned, or nil if there are no violations.
+func (m *Node) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Node with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in NodeMultiError, or nil if none found.
+func (m *Node) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Node) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for X
+
+	// no validation rules for Y
+
+	if len(errors) > 0 {
+		return NodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// NodeMultiError is an error wrapping multiple validation errors returned by
+// Node.ValidateAll() if the designated constraints aren't met.
+type NodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m NodeMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m NodeMultiError) AllErrors() []error { return m }
+
+// NodeValidationError is the validation error returned by Node.Validate if the
+// designated constraints aren't met.
+type NodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NodeValidationError) ErrorName() string { return "NodeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NodeValidationError{}
+
+// Validate checks the field values on CalculateExperimentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CalculateExperimentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CalculateExperimentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CalculateExperimentRequestMultiError, or nil if none found.
+func (m *CalculateExperimentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CalculateExperimentRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ExprimentId
+
+	if len(errors) > 0 {
+		return CalculateExperimentRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// CalculateExperimentRequestMultiError is an error wrapping multiple
+// validation errors returned by CalculateExperimentRequest.ValidateAll() if
+// the designated constraints aren't met.
+type CalculateExperimentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CalculateExperimentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CalculateExperimentRequestMultiError) AllErrors() []error { return m }
+
+// CalculateExperimentRequestValidationError is the validation error returned
+// by CalculateExperimentRequest.Validate if the designated constraints aren't met.
+type CalculateExperimentRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CalculateExperimentRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CalculateExperimentRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CalculateExperimentRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CalculateExperimentRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CalculateExperimentRequestValidationError) ErrorName() string {
+	return "CalculateExperimentRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CalculateExperimentRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCalculateExperimentRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CalculateExperimentRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CalculateExperimentRequestValidationError{}
+
+// Validate checks the field values on CalculateExperimentResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CalculateExperimentResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CalculateExperimentResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CalculateExperimentResponseMultiError, or nil if none found.
+func (m *CalculateExperimentResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CalculateExperimentResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return CalculateExperimentResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// CalculateExperimentResponseMultiError is an error wrapping multiple
+// validation errors returned by CalculateExperimentResponse.ValidateAll() if
+// the designated constraints aren't met.
+type CalculateExperimentResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CalculateExperimentResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CalculateExperimentResponseMultiError) AllErrors() []error { return m }
+
+// CalculateExperimentResponseValidationError is the validation error returned
+// by CalculateExperimentResponse.Validate if the designated constraints
+// aren't met.
+type CalculateExperimentResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CalculateExperimentResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CalculateExperimentResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CalculateExperimentResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CalculateExperimentResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CalculateExperimentResponseValidationError) ErrorName() string {
+	return "CalculateExperimentResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CalculateExperimentResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCalculateExperimentResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CalculateExperimentResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CalculateExperimentResponseValidationError{}
+
 // Validate checks the field values on ListExperimentRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.

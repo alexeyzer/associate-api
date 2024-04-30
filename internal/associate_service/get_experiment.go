@@ -2,6 +2,7 @@ package associate_service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
 	desc "github.com/alexeyzer/associate-api/pb/api/associate/v1"
@@ -14,7 +15,17 @@ func (s *AssociateApiServiceServer) GetExperiment(ctx context.Context, req *desc
 		return nil, err
 	}
 
-	res, err := s.experimentService.GetExperiment(ctx, req.GetId(), req.GetExperimentResultsPagination().GetNumber(), req.GetExperimentResultsPagination().GetLimit(), req.GetNames())
+	fmt.Println(req.GetNames())
+	fmt.Println(len(req.GetNames()))
+
+	names := make([]string, 0, len(req.GetNames()))
+	for _, name := range req.GetNames() {
+		if name != "" {
+			names = append(names, name)
+		}
+	}
+
+	res, err := s.experimentService.GetExperiment(ctx, req.GetId(), req.GetExperimentResultsPagination().GetNumber(), req.GetExperimentResultsPagination().GetLimit(), names)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/alexeyzer/associate-api/internal/pkg/datastruct"
@@ -12,6 +13,7 @@ import (
 type StimusWordQuery interface {
 	Create(ctx context.Context, req datastruct.StimusWord) (*datastruct.StimusWord, error)
 	GetByID(ctx context.Context, ID int64) (*datastruct.StimusWord, error)
+	GetByName(ctx context.Context, name string) (*datastruct.StimusWord, error)
 	Exists(ctx context.Context, name string) (bool, error)
 	List(ctx context.Context) ([]*datastruct.StimusWord, error)
 }
@@ -48,7 +50,30 @@ func (q *stimusWordQuery) Create(ctx context.Context, req datastruct.StimusWord)
 		Values(
 			req.Name,
 		).
+		Suffix("ON CONFLICT DO NOTHING ").
 		Suffix("RETURNING *")
+	query, args, err := qb.ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Print(query)
+
+	var stimusWord datastruct.StimusWord
+
+	err = q.db.GetContext(ctx, &stimusWord, query, args...)
+	if err != nil {
+		return nil, err
+	}
+
+	return &stimusWord, nil
+}
+
+func (q *stimusWordQuery) GetByName(ctx context.Context, name string) (*datastruct.StimusWord, error) {
+	qb := q.builder.
+		Select("*").
+		From(datastruct.StimusWordTableName).
+		Where(squirrel.Eq{"name": name})
 	query, args, err := qb.ToSql()
 	if err != nil {
 		return nil, err

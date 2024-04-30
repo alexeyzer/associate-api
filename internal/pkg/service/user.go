@@ -101,22 +101,12 @@ func (s *userService) SessionCheck(ctx context.Context, sessionID string) (*data
 }
 
 func (s *userService) Login(ctx context.Context, req *desc.LoginRequest) ([]*datastruct.UserRoleWithName, string, *datastruct.User, error) {
-	exists, err := s.dao.UserQuery().Exists(ctx, req.Email)
+	_, err := s.dao.UserQuery().Get(ctx, req.Email)
 	if err != nil {
 		return nil, "", nil, err
 	}
-	if exists == false {
-		res, err := s.CreateUser(ctx, &desc.CreateUserRequest{
-			Email:    req.Email,
-			Password: req.Password,
-		})
-		if err != nil {
-			return nil, "", nil, err
-		}
-		return nil, s.createSession(ctx, res), res, nil
-	}
 	user, err := s.dao.UserQuery().Get(ctx, req.Email)
-	if err != nil {
+	if err != nil  {
 		return nil, "", nil, err
 	}
 	err = bcrypt.CompareHashAndPassword(user.Password, []byte(req.Password))

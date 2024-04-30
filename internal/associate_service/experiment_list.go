@@ -2,6 +2,7 @@ package associate_service
 
 import (
 	"context"
+	"fmt"
 
 	desc "github.com/alexeyzer/associate-api/pb/api/associate/v1"
 )
@@ -17,6 +18,7 @@ func (s *AssociateApiServiceServer) ListExperiment(ctx context.Context, req *des
 		userID = 0
 	}
 
+	fmt.Println(userID)
 	var name *string
 
 	if req.GetName() != nil && req.GetName().GetValue() != "" {

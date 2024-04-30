@@ -111,10 +111,12 @@ func RunServer(ctx context.Context, associateApiServiceServer *associate_service
 	mux.Handle("/metrics", promhttp.Handler())
 	mux.Handle("/", cors(gwmux))
 	serveSwagger(mux)
+	
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
 		grpc.WithDefaultCallOptions(),
 	}
+
 	err = gw.RegisterAssociateApiServiceHandlerFromEndpoint(ctx, gwmux, ":"+config.Config.App.GrpcPort, opts)
 	if err != nil {
 		return err

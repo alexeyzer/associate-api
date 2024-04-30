@@ -15,6 +15,7 @@ type DAO interface {
 	UserRoleQuery() UserRoleQuery
 	ExperimentQuery() ExperimentQuery
 	ExperimentResultQuery() ExperimentResultQuery
+	ExperimentResultCalculatedQuery() ExperimentResultCalculatedQuery
 	StimusWordQuery() StimusWordQuery
 	AssociateWordQuery() AssociateWordQuery
 }
@@ -25,6 +26,7 @@ type dao struct {
 	userQuery             UserQuery
 	experimentQuery       ExperimentQuery
 	experimentResultQuery ExperimentResultQuery
+	experimentResultCalculatedQuery ExperimentResultCalculatedQuery
 	stimusWordQuery       StimusWordQuery
 	associateWordQuery    AssociateWordQuery
 	db                    *sqlx.DB
@@ -87,6 +89,13 @@ func (d *dao) ExperimentResultQuery() ExperimentResultQuery {
 		d.experimentResultQuery = NewExperimentResultQuery(d.db)
 	}
 	return d.experimentResultQuery
+}
+
+func (d *dao) ExperimentResultCalculatedQuery() ExperimentResultCalculatedQuery {
+	if d.experimentResultCalculatedQuery == nil {
+		d.experimentResultCalculatedQuery = NewExperimentResultCalculatedQuery(d.db)
+	}
+	return d.experimentResultCalculatedQuery
 }
 
 func (d *dao) StimusWordQuery() StimusWordQuery {

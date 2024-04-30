@@ -20,25 +20,27 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AssociateApiService_ListStimusWords_FullMethodName        = "/user.api.associateApiService/ListStimusWords"
-	AssociateApiService_CreateExperiment_FullMethodName       = "/user.api.associateApiService/CreateExperiment"
-	AssociateApiService_CreateExperimentResult_FullMethodName = "/user.api.associateApiService/CreateExperimentResult"
-	AssociateApiService_GetExperiment_FullMethodName          = "/user.api.associateApiService/GetExperiment"
-	AssociateApiService_ListExperiment_FullMethodName         = "/user.api.associateApiService/ListExperiment"
-	AssociateApiService_CreateUser_FullMethodName             = "/user.api.associateApiService/CreateUser"
-	AssociateApiService_ListUsers_FullMethodName              = "/user.api.associateApiService/ListUsers"
-	AssociateApiService_GetUser_FullMethodName                = "/user.api.associateApiService/GetUser"
-	AssociateApiService_Login_FullMethodName                  = "/user.api.associateApiService/Login"
-	AssociateApiService_Logout_FullMethodName                 = "/user.api.associateApiService/Logout"
-	AssociateApiService_CreateRole_FullMethodName             = "/user.api.associateApiService/CreateRole"
-	AssociateApiService_UpdateRole_FullMethodName             = "/user.api.associateApiService/UpdateRole"
-	AssociateApiService_DeleteRole_FullMethodName             = "/user.api.associateApiService/DeleteRole"
-	AssociateApiService_GetRole_FullMethodName                = "/user.api.associateApiService/GetRole"
-	AssociateApiService_ListRoles_FullMethodName              = "/user.api.associateApiService/ListRoles"
-	AssociateApiService_CreateUserRole_FullMethodName         = "/user.api.associateApiService/CreateUserRole"
-	AssociateApiService_GetUserRole_FullMethodName            = "/user.api.associateApiService/GetUserRole"
-	AssociateApiService_DeleteUserRole_FullMethodName         = "/user.api.associateApiService/DeleteUserRole"
-	AssociateApiService_ListUserRoles_FullMethodName          = "/user.api.associateApiService/ListUserRoles"
+	AssociateApiService_ListStimusWords_FullMethodName         = "/user.api.associateApiService/ListStimusWords"
+	AssociateApiService_CreateExperiment_FullMethodName        = "/user.api.associateApiService/CreateExperiment"
+	AssociateApiService_CreateExperimentResult_FullMethodName  = "/user.api.associateApiService/CreateExperimentResult"
+	AssociateApiService_GetExperiment_FullMethodName           = "/user.api.associateApiService/GetExperiment"
+	AssociateApiService_ListExperiment_FullMethodName          = "/user.api.associateApiService/ListExperiment"
+	AssociateApiService_CreateUser_FullMethodName              = "/user.api.associateApiService/CreateUser"
+	AssociateApiService_ListUsers_FullMethodName               = "/user.api.associateApiService/ListUsers"
+	AssociateApiService_GetUser_FullMethodName                 = "/user.api.associateApiService/GetUser"
+	AssociateApiService_Login_FullMethodName                   = "/user.api.associateApiService/Login"
+	AssociateApiService_Logout_FullMethodName                  = "/user.api.associateApiService/Logout"
+	AssociateApiService_CreateRole_FullMethodName              = "/user.api.associateApiService/CreateRole"
+	AssociateApiService_UpdateRole_FullMethodName              = "/user.api.associateApiService/UpdateRole"
+	AssociateApiService_DeleteRole_FullMethodName              = "/user.api.associateApiService/DeleteRole"
+	AssociateApiService_GetRole_FullMethodName                 = "/user.api.associateApiService/GetRole"
+	AssociateApiService_ListRoles_FullMethodName               = "/user.api.associateApiService/ListRoles"
+	AssociateApiService_CreateUserRole_FullMethodName          = "/user.api.associateApiService/CreateUserRole"
+	AssociateApiService_GetUserRole_FullMethodName             = "/user.api.associateApiService/GetUserRole"
+	AssociateApiService_DeleteUserRole_FullMethodName          = "/user.api.associateApiService/DeleteUserRole"
+	AssociateApiService_ListUserRoles_FullMethodName           = "/user.api.associateApiService/ListUserRoles"
+	AssociateApiService_CalculateExperiment_FullMethodName     = "/user.api.associateApiService/CalculateExperiment"
+	AssociateApiService_GetExperimentCalculated_FullMethodName = "/user.api.associateApiService/GetExperimentCalculated"
 )
 
 // AssociateApiServiceClient is the client API for AssociateApiService service.
@@ -64,6 +66,8 @@ type AssociateApiServiceClient interface {
 	GetUserRole(ctx context.Context, in *GetUserRoleRequest, opts ...grpc.CallOption) (*GetUserRoleResponse, error)
 	DeleteUserRole(ctx context.Context, in *DeleteUserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ListUserRoles(ctx context.Context, in *ListUserRolesRequest, opts ...grpc.CallOption) (*ListUserRolesResponse, error)
+	CalculateExperiment(ctx context.Context, in *CalculateExperimentRequest, opts ...grpc.CallOption) (*CalculateExperimentResponse, error)
+	GetExperimentCalculated(ctx context.Context, in *GetExperimentCalculatedRequest, opts ...grpc.CallOption) (*GetExperimentCalculatedResponse, error)
 }
 
 type associateApiServiceClient struct {
@@ -245,6 +249,24 @@ func (c *associateApiServiceClient) ListUserRoles(ctx context.Context, in *ListU
 	return out, nil
 }
 
+func (c *associateApiServiceClient) CalculateExperiment(ctx context.Context, in *CalculateExperimentRequest, opts ...grpc.CallOption) (*CalculateExperimentResponse, error) {
+	out := new(CalculateExperimentResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_CalculateExperiment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *associateApiServiceClient) GetExperimentCalculated(ctx context.Context, in *GetExperimentCalculatedRequest, opts ...grpc.CallOption) (*GetExperimentCalculatedResponse, error) {
+	out := new(GetExperimentCalculatedResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_GetExperimentCalculated_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssociateApiServiceServer is the server API for AssociateApiService service.
 // All implementations must embed UnimplementedAssociateApiServiceServer
 // for forward compatibility
@@ -268,6 +290,8 @@ type AssociateApiServiceServer interface {
 	GetUserRole(context.Context, *GetUserRoleRequest) (*GetUserRoleResponse, error)
 	DeleteUserRole(context.Context, *DeleteUserRoleRequest) (*emptypb.Empty, error)
 	ListUserRoles(context.Context, *ListUserRolesRequest) (*ListUserRolesResponse, error)
+	CalculateExperiment(context.Context, *CalculateExperimentRequest) (*CalculateExperimentResponse, error)
+	GetExperimentCalculated(context.Context, *GetExperimentCalculatedRequest) (*GetExperimentCalculatedResponse, error)
 	mustEmbedUnimplementedAssociateApiServiceServer()
 }
 
@@ -331,6 +355,12 @@ func (UnimplementedAssociateApiServiceServer) DeleteUserRole(context.Context, *D
 }
 func (UnimplementedAssociateApiServiceServer) ListUserRoles(context.Context, *ListUserRolesRequest) (*ListUserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserRoles not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) CalculateExperiment(context.Context, *CalculateExperimentRequest) (*CalculateExperimentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateExperiment not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) GetExperimentCalculated(context.Context, *GetExperimentCalculatedRequest) (*GetExperimentCalculatedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetExperimentCalculated not implemented")
 }
 func (UnimplementedAssociateApiServiceServer) mustEmbedUnimplementedAssociateApiServiceServer() {}
 
@@ -687,6 +717,42 @@ func _AssociateApiService_ListUserRoles_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssociateApiService_CalculateExperiment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateExperimentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).CalculateExperiment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_CalculateExperiment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).CalculateExperiment(ctx, req.(*CalculateExperimentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AssociateApiService_GetExperimentCalculated_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetExperimentCalculatedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).GetExperimentCalculated(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_GetExperimentCalculated_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).GetExperimentCalculated(ctx, req.(*GetExperimentCalculatedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssociateApiService_ServiceDesc is the grpc.ServiceDesc for AssociateApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -769,6 +835,14 @@ var AssociateApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUserRoles",
 			Handler:    _AssociateApiService_ListUserRoles_Handler,
+		},
+		{
+			MethodName: "CalculateExperiment",
+			Handler:    _AssociateApiService_CalculateExperiment_Handler,
+		},
+		{
+			MethodName: "GetExperimentCalculated",
+			Handler:    _AssociateApiService_GetExperimentCalculated_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
