@@ -140,6 +140,21 @@ import "google/protobuf/wrappers.proto";
       get: "/v1/experimentCalculated/list"
     };
   };
+  rpc FindPathsInExperiment(FindPathsInExperimentRequest) returns (FindPathsInExperimentResponse) {
+    option (google.api.http) = {
+      get: "/v1/experimentCalculated/findPaths"
+    };
+  };
+ }
+
+ message FindPathsInExperimentRequest {
+  int64 id = 1;
+  string word1 = 2;
+  string word2 = 3;
+ }
+
+ message FindPathsInExperimentResponse {
+  repeated chain paths = 1;
  }
 
   message GetExperimentCalculatedRequest {
@@ -151,6 +166,18 @@ import "google/protobuf/wrappers.proto";
  message GetExperimentCalculatedResponse {
   repeated ExperimentGrahp experiment_grahp = 1;
   repeated node nodes = 2;
+  repeated chain longest_chains = 3;
+  repeated chain weidghtet_chains = 4;
+  map<string, chains> find_words = 5;
+ }
+
+message chains {
+  repeated chain chains = 1;
+}
+
+ message chain {
+  repeated string words = 1;
+  int64 total = 2;
  }
 
  message node {

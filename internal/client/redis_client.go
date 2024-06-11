@@ -12,6 +12,8 @@ import (
 )
 
 type RedisClient interface {
+	SetValue(ctx context.Context, key string, value []byte) error
+	GetValue(ctx context.Context, key string) ([]byte, error)
 	Set(ctx context.Context, key, value string) error
 	Get(ctx context.Context, key string) (string, error)
 	Delete(ctx context.Context, key string) error
@@ -35,6 +37,25 @@ func (c *redisClient) Set(ctx context.Context, key, value string) error {
 		return err
 	}
 	return nil
+}
+
+func (c *redisClient) SetValue(ctx context.Context, key string, value []byte) error {
+	err := c.redisClient.SetEX(ctx, key, value, time.Hour*24).Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *redisClient) GetValue(ctx context.Context, key string) ([]byte, error) {
+	val, err := c.redisClient.Get(ctx, key).Result()
+	if err != nil {
+		if err == redis.Nil {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return []byte(val), nil
 }
 
 func (c *redisClient) Get(ctx context.Context, key string) (string, error) {

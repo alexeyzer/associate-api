@@ -31,16 +31,13 @@ func (q *experimentResultCalculatedQuery) GetCalculatedResulsts(ctx context.Cont
 		qb = qb.Where(squirrel.Eq{"user_id": userID})
 	}
 
-	if len(experimentIDs) != 0 {
+	if len(experimentIDs) != 0 && experimentIDs[0] != 0 {
 		qb = qb.Where(squirrel.Eq{"experiment_id": experimentIDs})
 	}
 
-
-
 	if len(names) > 0 {
-		massivee :=make([]string, 0)
+		massivee := make([]string, 0)
 
-		
 		for _, name := range names {
 			massivee = append(massivee,
 				strings.ToLower(name))
@@ -51,7 +48,7 @@ func (q *experimentResultCalculatedQuery) GetCalculatedResulsts(ctx context.Cont
 				squirrel.Eq{"LOWER(swt.name)": massivee},
 				squirrel.Eq{"LOWER(awt.name)": massivee},
 			})
-			
+
 		qb = qb.Suffix("UNION select ert.*, swt.name as stimus_word, awt.name as assotiation_word from experiment_result_calculated ert join stimus_word swt on swt.id = ert.stimus_word_id join associate_word awt on awt.id = ert.assotiation_word_id where (swt.name in (awt.name) or awt.name in (swt.name)) and swt.name != awt.name")
 		qb = q.builder.Select("*").From("result").WithRecursive("result", qb)
 		query, args, err := qb.ToSql()

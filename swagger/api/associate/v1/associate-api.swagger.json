@@ -214,6 +214,49 @@
         ]
       }
     },
+    "/v1/experimentCalculated/findPaths": {
+      "get": {
+        "operationId": "associateApiService_FindPathsInExperiment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiFindPathsInExperimentResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "word1",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "word2",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "associateApiService"
+        ]
+      }
+    },
     "/v1/experimentCalculated/list": {
       "get": {
         "operationId": "associateApiService_GetExperimentCalculated",
@@ -965,6 +1008,18 @@
       ],
       "default": "UNKNOWN"
     },
+    "apiFindPathsInExperimentResponse": {
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apichain"
+          }
+        }
+      }
+    },
     "apiGetExperimentCalculatedResponse": {
       "type": "object",
       "properties": {
@@ -980,6 +1035,26 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/apinode"
+          }
+        },
+        "longestChains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apichain"
+          }
+        },
+        "weidghtetChains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apichain"
+          }
+        },
+        "findWords": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/apichains"
           }
         }
       }
@@ -1262,6 +1337,33 @@
         },
         "description": {
           "type": "string"
+        }
+      }
+    },
+    "apichain": {
+      "type": "object",
+      "properties": {
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "total": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "apichains": {
+      "type": "object",
+      "properties": {
+        "chains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apichain"
+          }
         }
       }
     },

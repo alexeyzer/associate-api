@@ -41,6 +41,7 @@ const (
 	AssociateApiService_ListUserRoles_FullMethodName           = "/user.api.associateApiService/ListUserRoles"
 	AssociateApiService_CalculateExperiment_FullMethodName     = "/user.api.associateApiService/CalculateExperiment"
 	AssociateApiService_GetExperimentCalculated_FullMethodName = "/user.api.associateApiService/GetExperimentCalculated"
+	AssociateApiService_FindPathsInExperiment_FullMethodName   = "/user.api.associateApiService/FindPathsInExperiment"
 )
 
 // AssociateApiServiceClient is the client API for AssociateApiService service.
@@ -68,6 +69,7 @@ type AssociateApiServiceClient interface {
 	ListUserRoles(ctx context.Context, in *ListUserRolesRequest, opts ...grpc.CallOption) (*ListUserRolesResponse, error)
 	CalculateExperiment(ctx context.Context, in *CalculateExperimentRequest, opts ...grpc.CallOption) (*CalculateExperimentResponse, error)
 	GetExperimentCalculated(ctx context.Context, in *GetExperimentCalculatedRequest, opts ...grpc.CallOption) (*GetExperimentCalculatedResponse, error)
+	FindPathsInExperiment(ctx context.Context, in *FindPathsInExperimentRequest, opts ...grpc.CallOption) (*FindPathsInExperimentResponse, error)
 }
 
 type associateApiServiceClient struct {
@@ -267,6 +269,15 @@ func (c *associateApiServiceClient) GetExperimentCalculated(ctx context.Context,
 	return out, nil
 }
 
+func (c *associateApiServiceClient) FindPathsInExperiment(ctx context.Context, in *FindPathsInExperimentRequest, opts ...grpc.CallOption) (*FindPathsInExperimentResponse, error) {
+	out := new(FindPathsInExperimentResponse)
+	err := c.cc.Invoke(ctx, AssociateApiService_FindPathsInExperiment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AssociateApiServiceServer is the server API for AssociateApiService service.
 // All implementations must embed UnimplementedAssociateApiServiceServer
 // for forward compatibility
@@ -292,6 +303,7 @@ type AssociateApiServiceServer interface {
 	ListUserRoles(context.Context, *ListUserRolesRequest) (*ListUserRolesResponse, error)
 	CalculateExperiment(context.Context, *CalculateExperimentRequest) (*CalculateExperimentResponse, error)
 	GetExperimentCalculated(context.Context, *GetExperimentCalculatedRequest) (*GetExperimentCalculatedResponse, error)
+	FindPathsInExperiment(context.Context, *FindPathsInExperimentRequest) (*FindPathsInExperimentResponse, error)
 	mustEmbedUnimplementedAssociateApiServiceServer()
 }
 
@@ -361,6 +373,9 @@ func (UnimplementedAssociateApiServiceServer) CalculateExperiment(context.Contex
 }
 func (UnimplementedAssociateApiServiceServer) GetExperimentCalculated(context.Context, *GetExperimentCalculatedRequest) (*GetExperimentCalculatedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExperimentCalculated not implemented")
+}
+func (UnimplementedAssociateApiServiceServer) FindPathsInExperiment(context.Context, *FindPathsInExperimentRequest) (*FindPathsInExperimentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPathsInExperiment not implemented")
 }
 func (UnimplementedAssociateApiServiceServer) mustEmbedUnimplementedAssociateApiServiceServer() {}
 
@@ -753,6 +768,24 @@ func _AssociateApiService_GetExperimentCalculated_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AssociateApiService_FindPathsInExperiment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindPathsInExperimentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AssociateApiServiceServer).FindPathsInExperiment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AssociateApiService_FindPathsInExperiment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AssociateApiServiceServer).FindPathsInExperiment(ctx, req.(*FindPathsInExperimentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AssociateApiService_ServiceDesc is the grpc.ServiceDesc for AssociateApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -843,6 +876,10 @@ var AssociateApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetExperimentCalculated",
 			Handler:    _AssociateApiService_GetExperimentCalculated_Handler,
+		},
+		{
+			MethodName: "FindPathsInExperiment",
+			Handler:    _AssociateApiService_FindPathsInExperiment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

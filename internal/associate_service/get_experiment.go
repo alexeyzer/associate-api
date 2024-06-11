@@ -39,12 +39,10 @@ func datastructExperimentToPB(d *datastruct.Experiment) *desc.GetExperimentRespo
 		Name:                   d.Name,
 		ExperimentStimuses:     make([]*desc.ExperimentStimuses, 0, len(d.ExperimentStimuses)),
 		ExperimentAssotiations: make([]*desc.ExperimentAssociations, 0, len(d.ExperimentReulsts)),
-		ExperimentGrahp:        BuildGrahp(d.ExperimentReulsts),
-		Nodes:                  BuildNodes(d.ExperimentReulsts),
 	}
-	for _, result := range d.ExperimentReulsts {
-		response.ExperimentAssotiations = append(response.ExperimentAssotiations, ExperimentResultTopb(result))
-	}
+	// for _, result := range d.ExperimentReulsts {
+	// 	response.ExperimentAssotiations = append(response.ExperimentAssotiations, ExperimentResultTopb(result))
+	// }
 	for _, stimus := range d.ExperimentStimuses {
 		response.ExperimentStimuses = append(response.ExperimentStimuses, ExperimentStimusTopb(stimus))
 	}

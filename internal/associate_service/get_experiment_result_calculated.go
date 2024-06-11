@@ -24,10 +24,30 @@ func (s *AssociateApiServiceServer) GetExperimentCalculated(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+	resLongestWeighetst, err := s.experimentResultService.GetLongestAndWeighetst(ctx, req.GetId(), names)
+	if err != nil {
+		return nil, err
+	}
+
 	return &pb.GetExperimentCalculatedResponse{
 		ExperimentGrahp: BuildGrahpCalcualted(res),
 		Nodes:           BuildNodesCalculated(res),
+		LongestChains:   BuildChain(resLongestWeighetst.TopLongest),
+		WeidghtetChains: BuildChain(resLongestWeighetst.TopWeight),
+		FindWords: buildFind(resLongestWeighetst.FindWolrds),
 	}, nil
+}
+
+func buildFind(FindWolrds map[string][][]string) map[string]*pb.Chains {
+	result := make(map[string]*pb.Chains, len(FindWolrds))
+
+	for key, chain := range FindWolrds {
+		result[key] = &pb.Chains{
+			Chains: BuildChain(chain),
+		}
+	}
+
+	return result
 }
 
 func BuildNodesCalculated(d []*datastruct.ExperimentResultCalculated) []*pb.Node {
@@ -63,6 +83,22 @@ func BuildGrahpCalcualted(d []*datastruct.ExperimentResultCalculated) []*pb.Expe
 			AssotiationWord: dd.AssotiationWord,
 			Amount:          dd.Amount,
 		})
+	}
+	return result
+}
+
+func BuildChain(ddd [][]string) []*pb.Chain {
+	result := make([]*pb.Chain, 0, len(ddd))
+
+	for _, d := range ddd {
+		chain := &pb.Chain{
+			Words: make([]string, 0),
+			Total: int64(len(d)),
+		}
+		for _, dd := range d {
+			chain.Words = append(chain.Words, dd)
+		}
+		result = append(result, chain)
 	}
 	return result
 }

@@ -35,6 +35,252 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on FindPathsInExperimentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *FindPathsInExperimentRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FindPathsInExperimentRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// FindPathsInExperimentRequestMultiError, or nil if none found.
+func (m *FindPathsInExperimentRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FindPathsInExperimentRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Word1
+
+	// no validation rules for Word2
+
+	if len(errors) > 0 {
+		return FindPathsInExperimentRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// FindPathsInExperimentRequestMultiError is an error wrapping multiple
+// validation errors returned by FindPathsInExperimentRequest.ValidateAll() if
+// the designated constraints aren't met.
+type FindPathsInExperimentRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FindPathsInExperimentRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FindPathsInExperimentRequestMultiError) AllErrors() []error { return m }
+
+// FindPathsInExperimentRequestValidationError is the validation error returned
+// by FindPathsInExperimentRequest.Validate if the designated constraints
+// aren't met.
+type FindPathsInExperimentRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FindPathsInExperimentRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FindPathsInExperimentRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FindPathsInExperimentRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FindPathsInExperimentRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FindPathsInExperimentRequestValidationError) ErrorName() string {
+	return "FindPathsInExperimentRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e FindPathsInExperimentRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFindPathsInExperimentRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FindPathsInExperimentRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FindPathsInExperimentRequestValidationError{}
+
+// Validate checks the field values on FindPathsInExperimentResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *FindPathsInExperimentResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on FindPathsInExperimentResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// FindPathsInExperimentResponseMultiError, or nil if none found.
+func (m *FindPathsInExperimentResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *FindPathsInExperimentResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetPaths() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, FindPathsInExperimentResponseValidationError{
+						field:  fmt.Sprintf("Paths[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, FindPathsInExperimentResponseValidationError{
+						field:  fmt.Sprintf("Paths[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return FindPathsInExperimentResponseValidationError{
+					field:  fmt.Sprintf("Paths[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return FindPathsInExperimentResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// FindPathsInExperimentResponseMultiError is an error wrapping multiple
+// validation errors returned by FindPathsInExperimentResponse.ValidateAll()
+// if the designated constraints aren't met.
+type FindPathsInExperimentResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m FindPathsInExperimentResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m FindPathsInExperimentResponseMultiError) AllErrors() []error { return m }
+
+// FindPathsInExperimentResponseValidationError is the validation error
+// returned by FindPathsInExperimentResponse.Validate if the designated
+// constraints aren't met.
+type FindPathsInExperimentResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e FindPathsInExperimentResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e FindPathsInExperimentResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e FindPathsInExperimentResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e FindPathsInExperimentResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e FindPathsInExperimentResponseValidationError) ErrorName() string {
+	return "FindPathsInExperimentResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e FindPathsInExperimentResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sFindPathsInExperimentResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = FindPathsInExperimentResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = FindPathsInExperimentResponseValidationError{}
+
 // Validate checks the field values on GetExperimentCalculatedRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -259,6 +505,120 @@ func (m *GetExperimentCalculatedResponse) validate(all bool) error {
 
 	}
 
+	for idx, item := range m.GetLongestChains() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("LongestChains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("LongestChains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentCalculatedResponseValidationError{
+					field:  fmt.Sprintf("LongestChains[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetWeidghtetChains() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("WeidghtetChains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("WeidghtetChains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetExperimentCalculatedResponseValidationError{
+					field:  fmt.Sprintf("WeidghtetChains[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	{
+		sorted_keys := make([]string, len(m.GetFindWords()))
+		i := 0
+		for key := range m.GetFindWords() {
+			sorted_keys[i] = key
+			i++
+		}
+		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
+		for _, key := range sorted_keys {
+			val := m.GetFindWords()[key]
+			_ = val
+
+			// no validation rules for FindWords[key]
+
+			if all {
+				switch v := interface{}(val).(type) {
+				case interface{ ValidateAll() error }:
+					if err := v.ValidateAll(); err != nil {
+						errors = append(errors, GetExperimentCalculatedResponseValidationError{
+							field:  fmt.Sprintf("FindWords[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				case interface{ Validate() error }:
+					if err := v.Validate(); err != nil {
+						errors = append(errors, GetExperimentCalculatedResponseValidationError{
+							field:  fmt.Sprintf("FindWords[%v]", key),
+							reason: "embedded message failed validation",
+							cause:  err,
+						})
+					}
+				}
+			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
+				if err := v.Validate(); err != nil {
+					return GetExperimentCalculatedResponseValidationError{
+						field:  fmt.Sprintf("FindWords[%v]", key),
+						reason: "embedded message failed validation",
+						cause:  err,
+					}
+				}
+			}
+
+		}
+	}
+
 	if len(errors) > 0 {
 		return GetExperimentCalculatedResponseMultiError(errors)
 	}
@@ -339,6 +699,238 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetExperimentCalculatedResponseValidationError{}
+
+// Validate checks the field values on Chains with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Chains) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Chains with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ChainsMultiError, or nil if none found.
+func (m *Chains) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Chains) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetChains() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ChainsValidationError{
+						field:  fmt.Sprintf("Chains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ChainsValidationError{
+						field:  fmt.Sprintf("Chains[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ChainsValidationError{
+					field:  fmt.Sprintf("Chains[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ChainsMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChainsMultiError is an error wrapping multiple validation errors returned by
+// Chains.ValidateAll() if the designated constraints aren't met.
+type ChainsMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChainsMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChainsMultiError) AllErrors() []error { return m }
+
+// ChainsValidationError is the validation error returned by Chains.Validate if
+// the designated constraints aren't met.
+type ChainsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChainsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChainsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChainsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChainsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChainsValidationError) ErrorName() string { return "ChainsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ChainsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChains.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChainsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChainsValidationError{}
+
+// Validate checks the field values on Chain with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Chain) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Chain with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in ChainMultiError, or nil if none found.
+func (m *Chain) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Chain) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Total
+
+	if len(errors) > 0 {
+		return ChainMultiError(errors)
+	}
+
+	return nil
+}
+
+// ChainMultiError is an error wrapping multiple validation errors returned by
+// Chain.ValidateAll() if the designated constraints aren't met.
+type ChainMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ChainMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ChainMultiError) AllErrors() []error { return m }
+
+// ChainValidationError is the validation error returned by Chain.Validate if
+// the designated constraints aren't met.
+type ChainValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ChainValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ChainValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ChainValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ChainValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ChainValidationError) ErrorName() string { return "ChainValidationError" }
+
+// Error satisfies the builtin error interface
+func (e ChainValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sChain.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ChainValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ChainValidationError{}
 
 // Validate checks the field values on Node with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error

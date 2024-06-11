@@ -36,15 +36,16 @@ func (q *experimentResultQuery) List(ctx context.Context, userID int64, experime
 	}
 
 	if len(names) > 0 {
-		for _, name := range names {
+		for i, name := range names {
 			fmt.Println("WORLD", name)
-			qb = qb.Where(
-				squirrel.Or{
-					squirrel.Like{"LOWER(swt.name)": fmt.Sprintf("%%%s%%", strings.ToLower(name))},
-					squirrel.Like{"LOWER(awt.name)": fmt.Sprintf("%%%s%%", strings.ToLower(name))},
-				})
+			names[i] = fmt.Sprintf("%%%s%%", strings.ToLower(name))
 		}
-		qb = qb.Suffix("UNION select ert.*, swt.name as stimus_word, awt.name as assotiation_word from experiment_result ert join stimus_word swt on swt.id = ert.stimus_word_id join associate_word awt on awt.id = ert.assotiation_word_id where ert.assotiation_word_id in (ert.assotiation_word_id) or ert.stimus_word_id in (ert.stimus_word_id) limit 700")
+		qb = qb.Where(
+			squirrel.Or{
+				squirrel.Like{"LOWER(swt.name)": names},
+				squirrel.Like{"LOWER(awt.name)": names},
+			})
+		qb = qb.Suffix("UNION select ert.*, swt.name as stimus_word, awt.name as assotiation_word from experiment_result ert join stimus_word swt on swt.id = ert.stimus_word_id join associate_word awt on awt.id = ert.assotiation_word_id where ert.assotiation_word_id in (ert.assotiation_word_id) or ert.stimus_word_id in (ert.stimus_word_id) or ert.assotiation_word_id in (ert.stimus_word_id) limit 700")
 		qb = q.builder.Select("*").From("result").WithRecursive("result", qb)
 		query, args, err := qb.ToSql()
 		if err != nil {

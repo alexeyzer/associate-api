@@ -159,7 +159,7 @@ func main() {
 	roleService := service.NewRoleService(dao)
 	userRoleService := service.NewUserRoleService(dao)
 	experimentService := service.NewExperimentService(dao)
-	experimentResultService := service.NewExperimentResultService(dao)
+	experimentResultService := service.NewExperimentResultService(dao, redis)
 	stimusWordService := service.NewStimusWordService(dao)
 
 	associateApiServiceServer := associate_service.NewAssociateApiServiceServer(userService, roleService, userRoleService, experimentService, experimentResultService, stimusWordService)
